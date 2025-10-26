@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
   <div class="container">
-    <h1>Create Account</h1>
-    <form id="signupForm">
-      <input type="text" id="display_name" placeholder="Display Name" required>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <input type="text" id="referral_code" placeholder="Referral Code (Optional)">
+    <h2>Create Account</h2>
+    <form id="signup-form">
+      <input id="signup-email" type="email" placeholder="Email" required />
+      <input id="signup-password" type="password" placeholder="Password" required />
+      <input id="signup-display-name" type="text" placeholder="Display Name" required />
+      <input id="signup-referral" type="text" placeholder="Referral Code (Optional)" />
       <button type="submit">Sign Up</button>
     </form>
-    <p>Already have an account? <a href="login.html">Login</a></p>
+    <a href="login.html">Already have an account? Login</a>
   </div>
-  <script type="module" src="app.js"></script>
 </body>
 </html>

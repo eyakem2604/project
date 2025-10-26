@@ -2,18 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
   <div class="container">
     <h1>Admin Panel</h1>
-    <div id="adminPanel">
-      <!-- Admin controls dynamically loaded by app.js -->
+    <h3>Add Task</h3>
+    <form id="admin-add-task-form">
+      <input id="task-title" placeholder="Title" required />
+      <textarea id="task-desc" placeholder="Description" required></textarea>
+      <input id="task-points" type="number" placeholder="Points" required />
+      <input id="task-link" placeholder="Link (optional)" />
+      <label><input type="checkbox" id="task-ad" /> Ad Task</label>
+      <label><input type="checkbox" id="task-screenshot" /> Requires Screenshot</label>
+      <button type="submit">Add Task</button>
+    </form>
+
+    <div class="section">
+      <h3>Users & Withdrawals</h3>
+      <div id="admin-users-list"></div>
+      <div id="admin-withdrawals"></div>
     </div>
-    <a href="tasks.html"><button>Back to Tasks</button></a>
   </div>
-  <script type="module" src="app.js"></script>
 </body>
 </html>

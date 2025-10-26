@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, <span id="user-name"></span></h1>
+    <div class="section">
+      <h3>Points: <span id="user-points">0</span> | Wallet (ETB): <span id="user-etb">0</span></h3>
+      <input type="text" id="withdraw-telebirr" placeholder="Your TeleBirr Name" />
+      <button id="withdraw-btn">Request Withdraw</button>
+    </div>
+
+    <div class="section">
+      <h3>Tasks</h3>
+      <div id="tasks-list">
+        <!-- Tasks will appear here -->
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Referral</h3>
+      <p>Your referral code: <span id="referral-code"></span></p>
+      <p>Share and earn 5 points per referral!</p>
+    </div>
+  </div>
+</body>
+</html>
