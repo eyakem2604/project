@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallet</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Your Wallet</h1>
+    <div class="wallet-info" id="walletPoints">
+      <!-- Points info loaded by JS -->
+    </div>
+
+    <form id="withdrawForm">
+      <input type="number" id="withdraw_points" placeholder="Points to withdraw" required>
+      <input type="text" id="telebirr_number" placeholder="Your TeleBirr number" required>
+      <button type="submit">Request Withdrawal</button>
+    </form>
+
+    <a href="tasks.html"><button>Back to Tasks</button></a>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
