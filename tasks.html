@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tasks</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks - Earn Ethiopia</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Available Tasks</h1>
-    <div id="tasksList">
-      <!-- Tasks dynamically loaded by app.js -->
-    </div>
-    <a href="wallet.html"><button>Go to Wallet</button></a>
-    <a href="index.html"><button>Logout</button></a>
-  </div>
-  <script type="module" src="app.js"></script>
+    <header>
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <h1>Tasks</h1>
+    </header>
+    <aside class="sidebar hidden" id="sidebar">
+        <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="tasks.html">Tasks</a></li>
+            <li><a href="wallet.html">Wallet</a></li>
+            <li><a href="referral.html">Referral</a></li>
+            <li id="admin-link" class="hidden"><a href="admin.html">Admin Panel</a></li>
+        </ul>
+    </aside>
+    <main>
+        <h2>Available Tasks</h2>
+        <div id="tasks-container">
+            <!-- Tasks will be loaded dynamically via JS -->
+        </div>
+        <div id="adsense-placeholder">
+            <!-- Google AdSense placeholder -->
+            <p>Advertisement</p>
+        </div>
+    </main>
 </body>
 </html>

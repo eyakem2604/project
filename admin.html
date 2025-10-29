@@ -1,31 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Panel</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Earn Ethiopia</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Admin Panel</h1>
-    <h3>Add Task</h3>
-    <form id="admin-add-task-form">
-      <input id="task-title" placeholder="Title" required />
-      <textarea id="task-desc" placeholder="Description" required></textarea>
-      <input id="task-points" type="number" placeholder="Points" required />
-      <input id="task-link" placeholder="Link (optional)" />
-      <label><input type="checkbox" id="task-ad" /> Ad Task</label>
-      <label><input type="checkbox" id="task-screenshot" /> Requires Screenshot</label>
-      <button type="submit">Add Task</button>
-    </form>
+    <header>
+        <h1>Admin Panel</h1>
+    </header>
+    <main>
+        <section id="add-task-section">
+            <h2>Add Task</h2>
+            <form id="add-task-form">
+                <input type="text" id="task-title" placeholder="Task Title" required>
+                <input type="text" id="task-link" placeholder="External Link / Video URL" required>
+                <input type="number" id="task-points" placeholder="Points" required>
+                <label><input type="checkbox" id="task-screenshot"> Requires Screenshot</label>
+                <button type="submit">Add Task</button>
+            </form>
+        </section>
 
-    <div class="section">
-      <h3>Users & Withdrawals</h3>
-      <div id="admin-users-list"></div>
-      <div id="admin-withdrawals"></div>
-    </div>
-  </div>
+        <section id="add-announcement-section">
+            <h2>Add Announcement</h2>
+            <form id="add-announcement-form">
+                <input type="text" id="announcement-title" placeholder="Title" required>
+                <textarea id="announcement-body" placeholder="Message" required></textarea>
+                <button type="submit">Add Announcement</button>
+            </form>
+        </section>
+
+        <section id="users-management">
+            <h2>User Management</h2>
+            <div id="users-list">
+                <!-- List of users with ban buttons -->
+            </div>
+        </section>
+
+        <section id="task-approvals">
+            <h2>Pending Screenshots</h2>
+            <div id="pending-tasks">
+                <!-- Admin approves screenshots here -->
+            </div>
+        </section>
+    </main>
 </body>
 </html>

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Earn Ethiopia</title>
+    <title>Referral - Earn Ethiopia</title>
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
 </head>
 <body>
     <header>
         <div class="hamburger" id="hamburger">&#9776;</div>
-        <h1>Earn Ethiopia</h1>
+        <h1>Referral</h1>
     </header>
     <aside class="sidebar hidden" id="sidebar">
         <ul>
@@ -18,16 +18,15 @@
             <li><a href="tasks.html">Tasks</a></li>
             <li><a href="wallet.html">Wallet</a></li>
             <li><a href="referral.html">Referral</a></li>
-            <!-- Admin panel link -->
             <li id="admin-link" class="hidden"><a href="admin.html">Admin Panel</a></li>
         </ul>
     </aside>
     <main>
-        <h2>Welcome to Earn Ethiopia!</h2>
-        <div id="announcements"></div>
-        <div id="stats">
-            <p>Points: <span id="user-points">0</span></p>
-            <p>Referrals: <span id="user-referrals">0</span></p>
+        <h2>Your Referral Code</h2>
+        <p id="user-referral-code">XXXXXX</p>
+        <p>Points earned from referrals: <span id="referral-points">0</span></p>
+        <div id="referral-list">
+            <!-- List of referred users -->
         </div>
     </main>
 </body>

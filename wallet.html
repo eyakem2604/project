@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wallet</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - Earn Ethiopia</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Your Wallet</h1>
-    <div class="wallet-info" id="walletPoints">
-      <!-- Points info loaded by JS -->
-    </div>
-
-    <form id="withdrawForm">
-      <input type="number" id="withdraw_points" placeholder="Points to withdraw" required>
-      <input type="text" id="telebirr_number" placeholder="Your TeleBirr number" required>
-      <button type="submit">Request Withdrawal</button>
-    </form>
-
-    <a href="tasks.html"><button>Back to Tasks</button></a>
-  </div>
-  <script type="module" src="app.js"></script>
+    <header>
+        <div class="hamburger" id="hamburger">&#9776;</div>
+        <h1>Wallet</h1>
+    </header>
+    <aside class="sidebar hidden" id="sidebar">
+        <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="tasks.html">Tasks</a></li>
+            <li><a href="wallet.html">Wallet</a></li>
+            <li><a href="referral.html">Referral</a></li>
+            <li id="admin-link" class="hidden"><a href="admin.html">Admin Panel</a></li>
+        </ul>
+    </aside>
+    <main>
+        <h2>Wallet</h2>
+        <p>Your Points: <span id="wallet-points">0</span></p>
+        <p>Conversion Rate: 10 points = 1 ETB</p>
+        <form id="withdraw-form">
+            <input type="number" id="withdraw-amount" placeholder="Amount in ETB" min="100" required>
+            <input type="text" id="withdraw-telebirr" placeholder="TeleBirr Name / Number" required>
+            <button type="submit">Request Withdrawal</button>
+        </form>
+        <div id="withdraw-history">
+            <h3>Withdrawal History</h3>
+            <!-- List of withdrawals -->
+        </div>
+    </main>
 </body>
 </html>

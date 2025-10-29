@@ -1,263 +1,192 @@
-// =====================
-// CONFIGURE SUPABASE
-// =====================
+// Supabase project details (your credentials)
 const SUPABASE_URL = "https://dsdhriyfhbgwvfqfozzm.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzZGhyaXlmaGJnd3ZmcWZvenptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0NTUwNzYsImV4cCI6MjA3NzAzMTA3Nn0.K9AkSOB7qF7fSSERAfMy6Xmp4prcKd1sNaTbBazrdns";
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// =====================
-// HELPER FUNCTIONS
-// =====================
-
-function showMessage(msg) {
-    alert(msg);
-}
-
-async function getCurrentUser() {
-    const { data } = await supabase.auth.getSession();
-    return data.session ? data.session.user : null;
-}
-
-function generateReferralCode(length = 6) {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let code = "";
-    for (let i = 0; i < length; i++) {
-        code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return code;
-}
-
-// =====================
-// SIGNUP
-// =====================
-const signupForm = document.getElementById("signup-form");
-if (signupForm) {
-    signupForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("signup-email").value;
-        const password = document.getElementById("signup-password").value;
-        const displayName = document.getElementById("signup-display-name").value;
-        const referralInput = document.getElementById("signup-referral").value;
-
-        // Sign up user
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password
-        });
-
-        if (error) {
-            showMessage(error.message);
-            return;
-        }
-
-        const referral_code = generateReferralCode();
-
-        let referred_by = null;
-        if (referralInput) {
-            // find user by referral code
-            const { data: refUser } = await supabase.from("users").select("id, points_balance").eq("referral_code", referralInput).single();
-            if (refUser) {
-                referred_by = refUser.id;
-                // add 5 points to referrer
-                await supabase.from("users").update({ points_balance: refUser.points_balance + 5 }).eq("id", refUser.id);
-            }
-        }
-
-        // Insert new user row
-        await supabase.from("users").insert([{
-            email,
-            display_name: displayName,
-            referral_code,
-            referred_by,
-            points_balance: 0,
-            is_admin: email === "eyakemabi@gmail.com",
-            telebirr_name: "",
-            banned: false,
-            created_at: new Date()
-        }]);
-
-        showMessage("Account created! Please check your email to verify.");
-        window.location.href = "login.html";
+// Hamburger toggle
+const hamburger = document.getElementById('hamburger');
+const sidebar = document.getElementById('sidebar');
+if(hamburger){
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
     });
 }
 
-// =====================
-// LOGIN
-// =====================
-const loginForm = document.getElementById("login-form");
-if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("login-email").value;
-        const password = document.getElementById("login-password").value;
+// Auth forms
+const loginForm = document.getElementById('login-form');
+const signupForm = document.getElementById('signup-form');
+const showSignup = document.getElementById('show-signup');
+const showLogin = document.getElementById('show-login');
 
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) {
-            showMessage(error.message);
-            return;
-        }
-        window.location.href = "dashboard.html";
+if(showSignup){
+    showSignup.addEventListener('click', () => {
+        loginForm.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+    });
+}
+if(showLogin){
+    showLogin.addEventListener('click', () => {
+        signupForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
     });
 }
 
-// =====================
-// DASHBOARD
-// =====================
-async function loadDashboard() {
-    const user = await getCurrentUser();
-    if (!user) {
-        window.location.href = "login.html";
-        return;
+// Signup
+if(signupForm){
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const display_name = document.getElementById('signup-name').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        const referral = document.getElementById('signup-referral').value;
+
+        const { user, error } = await supabaseClient.auth.signUp({ email, password });
+
+        if(error){
+            alert(error.message);
+            return;
+        }
+
+        // Insert into users table
+        const { data, error: insertError } = await supabaseClient
+            .from('users')
+            .insert([{
+                id: user.id,
+                display_name: display_name,
+                referral_code: Math.random().toString(36).substring(2,8).toUpperCase(),
+                referred_by: referral || null,
+                points_balance: referral ? 5 : 0,
+                is_admin: email === "eyakemabi@gmail.com"
+            }]);
+
+        if(insertError){
+            alert(insertError.message);
+            return;
+        }
+
+        alert('Signup successful. Please login.');
+        signupForm.reset();
+        signupForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+    });
+}
+
+// Login
+if(loginForm){
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if(error){
+            alert(error.message);
+            return;
+        }
+
+        localStorage.setItem('userId', data.user.id);
+        window.location.href = 'dashboard.html';
+    });
+}
+
+// Load dashboard info
+async function loadDashboard(){
+    const userId = localStorage.getItem('userId');
+    if(!userId) return window.location.href = "index.html";
+
+    const { data: user } = await supabaseClient
+        .from('users')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+    if(!user) return window.location.href = "index.html";
+
+    document.getElementById('user-points').textContent = user.points_balance;
+    document.getElementById('user-referrals').textContent = user.referred_by ? 1 : 0;
+
+    // Show admin link if user is admin
+    if(user.is_admin){
+        const adminLink = document.getElementById('admin-link');
+        if(adminLink) adminLink.classList.remove('hidden');
     }
 
-    const { data: userData } = await supabase.from("users").select("*").eq("email", user.email).single();
-    if (!userData) return;
-
-    document.getElementById("user-name").textContent = userData.display_name;
-    document.getElementById("user-points").textContent = userData.points_balance;
-    document.getElementById("user-etb").textContent = (userData.points_balance / 10).toFixed(2);
-    document.getElementById("referral-code").textContent = userData.referral_code;
-
-    // Show/hide admin panel
-    if (userData.is_admin && window.location.pathname.includes("admin.html")) {
-        document.querySelector(".container").style.display = "block";
-    } else if (window.location.pathname.includes("admin.html")) {
-        showMessage("Unauthorized");
-        window.location.href = "dashboard.html";
-    }
-
-    // Load tasks
-    const { data: tasks } = await supabase.from("tasks").select("*").order("visible_order", { ascending: true });
-    const tasksList = document.getElementById("tasks-list");
-    if (tasksList) {
-        tasksList.innerHTML = "";
-        tasks.forEach(task => {
-            const card = document.createElement("div");
-            card.className = "task-card";
-
-            let html = `<h4>${task.title} (${task.points} points)</h4>`;
-            html += `<p>${task.description}</p>`;
-            if (task.ad_task) {
-                html += `<p>Watch Ad below:</p><div style="background:#000; color:#fff; text-align:center; padding:10px;">Google Ad Placeholder</div>`;
-            }
-            if (task.link_url) {
-                html += `<p><a href="${task.link_url}" target="_blank">Go to Link</a></p>`;
-                if (task.requires_screenshot) {
-                    html += `<input type="file" class="screenshot" data-taskid="${task.id}" />`;
-                    html += `<button class="upload-screenshot" data-taskid="${task.id}">Submit Screenshot</button>`;
-                }
-            }
-            card.innerHTML = html;
-            tasksList.appendChild(card);
+    // Load announcements
+    const { data: announcements } = await supabaseClient.from('messages').select('*').order('created_at', {ascending: false});
+    const annContainer = document.getElementById('announcements');
+    if(annContainer && announcements) {
+        announcements.forEach(a => {
+            const div = document.createElement('div');
+            div.className = 'announcement-card';
+            div.innerHTML = `<h3>${a.subject}</h3><p>${a.body}</p>`;
+            annContainer.appendChild(div);
         });
     }
 }
 
-// =====================
-// UPLOAD SCREENSHOT
-// =====================
-document.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("upload-screenshot")) {
-        const taskId = e.target.dataset.taskid;
-        const fileInput = document.querySelector(`.screenshot[data-taskid="${taskId}"]`);
-        const file = fileInput.files[0];
-        if (!file) return showMessage("Select a file first");
-
-        const user = await getCurrentUser();
-        const fileName = `${user.id}/${taskId}_${Date.now()}_${file.name}`;
-        const { data, error } = await supabase.storage.from("screenshots").upload(fileName, file);
-        if (error) return showMessage(error.message);
-
-        const url = supabase.storage.from("screenshots").getPublicUrl(fileName).data.publicUrl;
-
-        await supabase.from("activities").insert([{
-            user_id: user.id,
-            task_id: taskId,
-            event: "screenshot_uploaded",
-            meta_json: { url },
-            points_awarded: 0,
-            created_at: new Date()
-        }]);
-
-        showMessage("Screenshot submitted! Admin will verify.");
-        fileInput.value = "";
+// Load tasks
+async function loadTasks(){
+    const userId = localStorage.getItem('userId');
+    const { data: tasks } = await supabaseClient.from('tasks').select('*').order('visible_order', {ascending: true});
+    const container = document.getElementById('tasks-container');
+    if(container && tasks){
+        tasks.forEach(t => {
+            const div = document.createElement('div');
+            div.className = 'task-card';
+            div.innerHTML = `
+                <h3>${t.title}</h3>
+                <p>Points: ${t.points}</p>
+                <a href="${t.link}" target="_blank">Go to Task</a>
+                ${t.requires_screenshot ? `<input type="file" class="screenshot-upload" data-task-id="${t.id}">` : ''}
+                <button class="report-btn" data-task-id="${t.id}">Report</button>
+            `;
+            container.appendChild(div);
+        });
     }
-});
 
-// =====================
-// WITHDRAW REQUEST
-// =====================
-const withdrawBtn = document.getElementById("withdraw-btn");
-if (withdrawBtn) {
-    withdrawBtn.addEventListener("click", async () => {
-        const user = await getCurrentUser();
-        const { data: userData } = await supabase.from("users").select("*").eq("email", user.email).single();
+    // Screenshot upload
+    container.querySelectorAll('.report-btn').forEach(btn => {
+        btn.addEventListener('click', async (e)=>{
+            const taskId = e.target.dataset.taskId;
+            const input = container.querySelector(`.screenshot-upload[data-task-id="${taskId}"]`);
+            let screenshotUrl = null;
+            if(input && input.files.length>0){
+                const file = input.files[0];
+                const { data, error } = await supabaseClient.storage.from('screenshots').upload(`${userId}/${Date.now()}_${file.name}`, file);
+                if(error) { alert(error.message); return; }
+                screenshotUrl = data.path;
+            }
 
-        const telebirr = document.getElementById("withdraw-telebirr").value.trim();
-        const minETB = 100;
-        const userETB = userData.points_balance / 10;
-
-        if (!telebirr) return showMessage("Enter your TeleBirr name");
-        if (userETB < minETB) return showMessage("Minimum withdrawal is 100 ETB");
-
-        await supabase.from("withdraw_requests").insert([{
-            user_id: user.id,
-            telebirr_name: telebirr,
-            points: userData.points_balance,
-            etb_amount: userETB,
-            status: "pending",
-            created_at: new Date()
-        }]);
-
-        await supabase.from("users").update({ points_balance: 0 }).eq("id", user.id);
-
-        showMessage("Withdraw request submitted!");
-        document.getElementById("user-points").textContent = 0;
-        document.getElementById("user-etb").textContent = 0;
+            await supabaseClient.from('activities').insert([{ user_id: userId, task_id: taskId, event: 'completed', meta_json: JSON.stringify({ screenshot: screenshotUrl }), points_awarded: t.points, created_at: new Date() }]);
+            alert('Task reported. Admin will verify.');
+        });
     });
 }
 
-// =====================
-// ADMIN PANEL
-// =====================
-const adminAddTaskForm = document.getElementById("admin-add-task-form");
-if (adminAddTaskForm) {
-    adminAddTaskForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const title = document.getElementById("task-title").value;
-        const desc = document.getElementById("task-desc").value;
-        const points = parseInt(document.getElementById("task-points").value);
-        const link_url = document.getElementById("task-link").value;
-        const ad_task = document.getElementById("task-ad").checked;
-        const requires_screenshot = document.getElementById("task-screenshot").checked;
-
-        const user = await getCurrentUser();
-
-        await supabase.from("tasks").insert([{
-            title,
-            description: desc,
-            points,
-            link_url,
-            ad_task,
-            requires_screenshot,
-            visible_order: Date.now(),
-            created_by_admin: user.id,
-            created_at: new Date()
-        }]);
-
-        showMessage("Task added successfully!");
-        adminAddTaskForm.reset();
-        loadDashboard();
-    });
+// Logout function
+async function logout(){
+    await supabaseClient.auth.signOut();
+    localStorage.removeItem('userId');
+    window.location.href = 'index.html';
 }
 
-// =====================
-// INITIAL LOAD
-// =====================
-window.addEventListener("load", () => {
-    if (window.location.pathname.includes("dashboard.html") || window.location.pathname.includes("admin.html")) {
-        loadDashboard();
-    }
-});
+// Call dashboard load if on dashboard page
+if(document.getElementById('user-points')){
+    loadDashboard();
+}
+
+// Call tasks load if on tasks page
+if(document.getElementById('tasks-container')){
+    loadTasks();
+}
+
+// Hamburger sidebar toggle (all pages)
+const sidebarToggle = document.getElementById('hamburger');
+if(sidebarToggle){
+    sidebarToggle.addEventListener('click', ()=>{
+        sidebar.classList.toggle('show');
+    });
+}
 
