@@ -1,26 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Earn Ethiopia - Login</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-<script defer src="app.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Earn Ethiopia — Simple tasks, real Telebirr payouts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="topbar">
+    <h1 class="brand">Earn Ethiopia</h1>
+    <p class="tagline">Complete simple tasks → Earn points → Withdraw via Telebirr</p>
+    <div class="cta">
+      <a class="btn" href="signup.html">Sign Up</a>
+      <a class="btn ghost" href="login.html">Login</a>
+    </div>
+  </header>
 
-<div class="auth-container">
+  <main class="container">
+    <section class="hero glass">
+      <h2>Welcome to Earn Ethiopia</h2>
+      <p>Join, finish tasks, upload screenshots, and withdraw to Telebirr. Mobile-first, fast, and made for Ethiopia.</p>
+      <div class="quicklinks">
+        <a class="card" href="signup.html">Create Account</a>
+        <a class="card" href="tasks.html">Browse Tasks</a>
+        <a class="card" href="referrals.html">Refer & Earn</a>
+      </div>
+    </section>
 
-    <form id="login-form" class="auth-form">
-        <h2>Login</h2>
-        <input type="email" id="login-email" placeholder="Email" required>
-        <input type="password" id="login-password" placeholder="Password" required>
-        <button type="submit">Login</button>
-        <p>No account? <a href="signup.html" class="link">Sign Up</a></p>
-    </form>
+    <section class="features">
+      <div class="glass card">
+        <h3>How it works</h3>
+        <ol>
+          <li>Sign up with email</li>
+          <li>Complete tasks and upload screenshots</li>
+          <li>Earn points — 10 points = 1 ETB</li>
+          <li>Withdraw to Telebirr (min 100 ETB)</li>
+        </ol>
+      </div>
 
-</div>
+      <div class="glass card">
+        <h3>Security & Privacy</h3>
+        <p>We store only the data needed to operate the platform. Screenshots stored securely in Supabase Storage.</p>
+      </div>
+    </section>
+  </main>
 
+  <footer class="site-footer">
+    © 2025 Teenage Developer — Eyakem Takele
+  </footer>
+
+  <script src="app.js" type="module"></script>
 </body>
 </html>

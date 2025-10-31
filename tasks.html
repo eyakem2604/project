@@ -1,35 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks - Earn Ethiopia</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tasks — Earn Ethiopia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="hamburger" id="hamburger">&#9776;</div>
-        <h1>Tasks</h1>
-    </header>
-    <aside class="sidebar hidden" id="sidebar">
-        <ul>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="tasks.html">Tasks</a></li>
-            <li><a href="wallet.html">Wallet</a></li>
-            <li><a href="referral.html">Referral</a></li>
-            <li id="admin-link" class="hidden"><a href="admin.html">Admin Panel</a></li>
-        </ul>
-    </aside>
-    <main>
-        <h2>Available Tasks</h2>
-        <div id="tasks-container">
-            <!-- Tasks will be loaded dynamically via JS -->
-        </div>
-        <div id="adsense-placeholder">
-            <!-- Google AdSense placeholder -->
-            <p>Advertisement</p>
-        </div>
-    </main>
+  <nav class="mobile-nav">
+    <button id="hamburger" class="hamburger" aria-label="menu">☰</button>
+    <div class="nav-brand">Tasks</div>
+    <div class="nav-actions">
+      <a class="btn ghost" href="dashboard.html">Back</a>
+    </div>
+  </nav>
+
+  <aside id="sidebar" class="sidebar hidden">
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="wallet.html">Wallet</a></li>
+      <li><a href="referrals.html">Referrals</a></li>
+    </ul>
+  </aside>
+
+  <main class="container padded">
+    <section class="glass">
+      <h2>Available Tasks</h2>
+      <div id="tasks-list" class="tasks-list"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© 2025 Teenage Developer — Eyakem Takele</footer>
+
+  <script type="module">
+    import { initApp, fetchTasks, submitScreenshot } from './app.js';
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('hidden');
+    });
+    await initApp();
+    const tasksList = await fetchTasks();
+    const container = document.getElementById('tasks-list');
+    if (!tasksList || tasksList.length === 0) {
+      container.innerHTML = '<p class="muted">No tasks yet. Check back later.</p>';
+    } else {
+      tasksList.forEach(t => {
+        const el = document.createElement('div');
+        el.className = 'task-card glass';
+        el.innerHTML = `
+          <h3>${t.title}</h3>
+          <p><a href="${t.link}" target="_blank" rel="noopener noreferrer">Open task</a></p>
+          <p>Reward: <strong>${t.reward} pts</strong></p>
+          <label class="upload-row">Submit screenshot
+            <input type="file" accept="image/*" data-task="${t.id}" class="screenshot-input"/>
+          </label>
+          <div class="muted small" data-msg="${t.id}"></div>
+        `;
+        container.appendChild(el);
+      });
+
+      container.querySelectorAll('.screenshot-input').forEach(input => {
+        input.addEventListener('change', async (ev) => {
+          const file = ev.target.files[0];
+          if (!file) return;
+          const taskId = ev.target.dataset.task;
+          const msg = document.querySelector(`[data-msg="${taskId}"]`);
+          msg.textContent = 'Uploading...';
+          try {
+            await submitScreenshot({ file, taskId });
+            msg.textContent = 'Uploaded — pending review.';
+          } catch (err) {
+            msg.textContent = err.message || String(err);
+          }
+        });
+      });
+    }
+  </script>
 </body>
 </html>

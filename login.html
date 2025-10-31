@@ -1,21 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login — Earn Ethiopia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <h2>Login</h2>
-    <form id="login-form">
-      <input id="login-email" type="email" placeholder="Email" required />
-      <input id="login-password" type="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-    <a href="signup.html">Don't have an account? Sign Up</a>
-  </div>
+  <main class="auth-page">
+    <div class="glass auth-card">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label>Email<input id="email" type="email" required></label>
+        <label>Password<input id="password" type="password" required></label>
+        <button class="btn" type="submit">Login</button>
+        <p class="muted">Don't have an account? <a href="signup.html">Sign up</a></p>
+      </form>
+      <div id="login-msg" class="muted"></div>
+
+      <div class="glass" style="margin-top:12px;">
+        <h4>Didn't verify yet?</h4>
+        <p class="muted">You can request a magic-link sign-in (works as a quick way to access account & finish verification steps in Supabase).</p>
+        <label>Email for magic link<input id="magic-email" type="email"></label>
+        <button id="magic-btn" class="btn ghost">Send magic link</button>
+        <div id="magic-msg" class="muted"></div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { signInWithVerification } from './app.js';
+    const form = document.getElementById('login-form');
+    const msg = document.getElementById('login-msg');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = 'Signing in...';
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      try {
+        await signInWithVerification({ email, password });
+      } catch (err) {
+        msg.textContent = err.message || String(err);
+      }
+    });
+
+    document.getElementById('magic-btn').addEventListener('click', async () => {
+      const e = document.getElementById('magic-email').value.trim();
+      document.getElementById('magic-msg').textContent = 'Sending magic link...';
+      try {
+        const { sendMagic } = await import('./app.js');
+        await sendMagic(e);
+        document.getElementById('magic-msg').textContent = 'Magic link sent. Check your email.';
+      } catch (err) {
+        document.getElementById('magic-msg').textContent = err.message || String(err);
+      }
+    });
+  </script>
 </body>
 </html>
