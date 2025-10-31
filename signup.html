@@ -31,7 +31,7 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
   const fullName = document.getElementById("fullName").value;
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  await signup(fullName, email, password);
+  await signup(fullName, email, password); // Redirect handled in app.js
 });
 </script>
 </body>

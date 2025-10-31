@@ -10,13 +10,27 @@
 <div class="container">
   <header>
     <h1>Email Verification</h1>
-    <p>Please check your email and click the verification link before logging in.</p>
+    <p>Please check your inbox and click the verification link. Then click below to continue.</p>
   </header>
 
-  <button onclick="window.location.href='login.html'">Back to Login</button>
+  <button id="checkVerifyBtn">I have verified my email</button>
+
+  <p><a href="login.html">Back to Login</a></p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 <script src="app.js"></script>
+<script>
+document.getElementById("checkVerifyBtn").addEventListener("click", async () => {
+  const user = supabase.auth.user();
+  if (!user) return alert("No user found. Please login first.");
+  await user.refreshSession(); // refresh to get updated email_confirmed_at
+  if (user.email_confirmed_at) {
+    window.location.href = "dashboard.html";
+  } else {
+    alert("Email not verified yet. Please click the link in your email.");
+  }
+});
+</script>
 </body>
 </html>
