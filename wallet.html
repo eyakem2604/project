@@ -10,7 +10,8 @@
 <div class="container">
   <header>
     <h1>Wallet</h1>
-    <p>Withdraw your points via Telebirr (10 points = 1 ETB, minimum 100 ETB)</p>
+    <p>Total Points: <span id="points">0</span></p>
+    <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
   </header>
 
   <form id="withdrawForm">
@@ -18,18 +19,23 @@
     <input type="text" id="telebirrNumber" placeholder="Telebirr Number" required>
     <button type="submit">Withdraw</button>
   </form>
-
-  <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
-  <button onclick="logout()">Logout</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 <script src="app.js"></script>
 <script>
-document.getElementById("withdrawForm").addEventListener("submit", async (e) => {
+async function loadWallet() {
+  const user = supabase.auth.user();
+  if (!user) return window.location.href = 'login.html';
+  const { data: userData } = await supabase.from('users').select('*').eq('id', user.id).single();
+  document.getElementById('points').innerText = userData.points;
+}
+window.addEventListener('load', loadWallet);
+
+document.getElementById('withdrawForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const name = document.getElementById("telebirrName").value;
-  const number = document.getElementById("telebirrNumber").value;
+  const name = document.getElementById('telebirrName').value;
+  const number = document.getElementById('telebirrNumber').value;
   await requestWithdrawal(name, number);
 });
 </script>

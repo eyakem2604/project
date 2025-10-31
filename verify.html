@@ -14,7 +14,6 @@
   </header>
 
   <button id="checkVerifyBtn">I have verified my email</button>
-
   <p><a href="login.html">Back to Login</a></p>
 </div>
 
@@ -24,7 +23,7 @@
 document.getElementById("checkVerifyBtn").addEventListener("click", async () => {
   const user = supabase.auth.user();
   if (!user) return alert("No user found. Please login first.");
-  await user.refreshSession(); // refresh to get updated email_confirmed_at
+  await supabase.auth.getSession(); // refresh session
   if (user.email_confirmed_at) {
     window.location.href = "dashboard.html";
   } else {

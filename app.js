@@ -10,9 +10,7 @@ async function signup(fullName, email, password) {
       { email, password },
       { data: { full_name: fullName } }
     );
-
     if (error) return alert("Signup failed: " + error.message);
-
     alert("Signup successful! Check your email to verify.");
     window.location.href = "verify.html";
   } catch (err) {
@@ -24,14 +22,11 @@ async function login(email, password) {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return alert("Login failed: " + error.message);
-
-    // Check if email is verified
     if (!data.user.email_confirmed_at) {
       alert("Please verify your email first!");
       window.location.href = "verify.html";
       return;
     }
-
     window.location.href = "dashboard.html";
   } catch (err) {
     alert("Unexpected error: " + err.message);
@@ -52,12 +47,10 @@ async function loadDashboard() {
   document.getElementById('welcomeMsg').innerText = `Welcome, ${userData.full_name}!`;
   document.getElementById('points').innerText = userData.points;
 
-  // Admin link
   if (user.email === "eyakemabi@gmail.com") {
     document.getElementById('adminLink').style.display = "block";
   }
 
-  // Load announcements
   const { data: announcements } = await supabase.from('announcements').select('*').order('created_at', { ascending: false });
   document.getElementById('announcements').innerHTML = announcements.map(a => `<div>${a.content}</div>`).join('');
 }

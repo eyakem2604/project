@@ -10,39 +10,53 @@
 <div class="container">
   <header>
     <h1>Admin Panel</h1>
+    <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
   </header>
 
-  <!-- Add Task -->
-  <section id="addTaskSection">
-    <h2>Add New Task</h2>
-    <input type="text" id="taskTitle" placeholder="Task Title">
-    <input type="text" id="taskLink" placeholder="Task Link">
+  <section>
+    <h2>Add Task</h2>
+    <input type="text" id="taskTitle" placeholder="Title">
+    <input type="text" id="taskLink" placeholder="Link">
     <input type="number" id="taskReward" placeholder="Reward Points">
-    <button onclick="adminAddTask(document.getElementById('taskTitle').value, document.getElementById('taskLink').value, parseInt(document.getElementById('taskReward').value))">Add Task</button>
+    <button id="addTaskBtn">Add Task</button>
   </section>
 
-  <!-- Add Announcement -->
-  <section id="addAnnouncementSection">
+  <section>
     <h2>Add Announcement</h2>
-    <input type="text" id="announcementContent" placeholder="Announcement Content">
-    <button onclick="adminAddAnnouncement(document.getElementById('announcementContent').value)">Add Announcement</button>
+    <textarea id="announcementContent" placeholder="Content"></textarea>
+    <button id="addAnnouncementBtn">Add Announcement</button>
   </section>
 
-  <!-- View Submissions -->
-  <section id="submissionsSection">
-    <h2>User Submissions</h2>
+  <section>
+    <h2>Submissions</h2>
     <div id="submissions"></div>
   </section>
-
-  <!-- Logout -->
-  <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
-  <button onclick="logout()">Logout</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 <script src="app.js"></script>
 <script>
-loadSubmissions();
+window.addEventListener('load', async () => {
+  const user = supabase.auth.user();
+  if (!user || user.email !== "eyakemabi@gmail.com") {
+    alert("Access denied");
+    window.location.href = "dashboard.html";
+  } else {
+    loadSubmissions();
+  }
+});
+
+document.getElementById('addTaskBtn').addEventListener('click', async () => {
+  const title = document.getElementById('taskTitle').value;
+  const link = document.getElementById('taskLink').value;
+  const reward = Number(document.getElementById('taskReward').value);
+  await adminAddTask(title, link, reward);
+});
+
+document.getElementById('addAnnouncementBtn').addEventListener('click', async () => {
+  const content = document.getElementById('announcementContent').value;
+  await adminAddAnnouncement(content);
+});
 </script>
 </body>
 </html>
