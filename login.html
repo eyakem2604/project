@@ -1,61 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Login — Earn Ethiopia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Earn Ethiopia</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="auth-page">
-    <div class="glass auth-card">
-      <h2>Login</h2>
-      <form id="login-form">
-        <label>Email<input id="email" type="email" required></label>
-        <label>Password<input id="password" type="password" required></label>
-        <button class="btn" type="submit">Login</button>
-        <p class="muted">Don't have an account? <a href="signup.html">Sign up</a></p>
-      </form>
-      <div id="login-msg" class="muted"></div>
+<div class="container">
+  <header>
+    <h1>Login</h1>
+    <p>Access your Earn Ethiopia account</p>
+  </header>
 
-      <div class="glass" style="margin-top:12px;">
-        <h4>Didn't verify yet?</h4>
-        <p class="muted">You can request a magic-link sign-in (works as a quick way to access account & finish verification steps in Supabase).</p>
-        <label>Email for magic link<input id="magic-email" type="email"></label>
-        <button id="magic-btn" class="btn ghost">Send magic link</button>
-        <div id="magic-msg" class="muted"></div>
-      </div>
-    </div>
-  </main>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
 
-  <script type="module">
-    import { signInWithVerification } from './app.js';
-    const form = document.getElementById('login-form');
-    const msg = document.getElementById('login-msg');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      msg.textContent = 'Signing in...';
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      try {
-        await signInWithVerification({ email, password });
-      } catch (err) {
-        msg.textContent = err.message || String(err);
-      }
-    });
+  <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+</div>
 
-    document.getElementById('magic-btn').addEventListener('click', async () => {
-      const e = document.getElementById('magic-email').value.trim();
-      document.getElementById('magic-msg').textContent = 'Sending magic link...';
-      try {
-        const { sendMagic } = await import('./app.js');
-        await sendMagic(e);
-        document.getElementById('magic-msg').textContent = 'Magic link sent. Check your email.';
-      } catch (err) {
-        document.getElementById('magic-msg').textContent = err.message || String(err);
-      }
-    });
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="app.js"></script>
+<script>
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  await login(email, password);
+});
+</script>
 </body>
 </html>

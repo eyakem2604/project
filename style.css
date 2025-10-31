@@ -1,72 +1,126 @@
-
-/* Blue-Black Transparent Modern UI - mobile-first */
-:root{
-  --bg:#071029;
-  --glass: rgba(255,255,255,0.03);
-  --card: rgba(255,255,255,0.04);
-  --accent: linear-gradient(90deg,#0ea5e9,#3b82f6);
-  --radius:16px;
-  --blur:10px;
-  font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+/* =========================
+   Global Styles
+========================= */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0b0b0b, #121212);
+  color: white;
+  margin: 0;
+  padding: 0;
 }
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;background:radial-gradient(circle at 10% 10%, rgba(14,165,233,0.06), transparent 10%), var(--bg);color:#e6eef8;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-.container{max-width:920px;margin:16px auto;padding:0 16px}
 
-/* Topbar / hero */
-.topbar{padding:28px 16px 10px;text-align:center}
-.brand{font-size:20px;margin:0;font-weight:800;letter-spacing:0.4px}
-.tagline{margin:6px 0 12px;color:rgba(230,238,248,0.8)}
-.cta .btn{margin:4px}
-
-/* glass card */
-.glass{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));backdrop-filter:blur(var(--blur));border-radius:var(--radius);padding:14px;box-shadow:0 6px 18px rgba(0,0,0,0.6);}
-
-/* cards and layout */
-.hero{margin-bottom:12px}
-.quicklinks{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
-.card{padding:12px;border-radius:12px;min-width:120px;text-align:center;background:var(--card)}
-
-/* buttons */
-.btn{background:var(--accent);background-clip:padding-box;color:#fff;padding:10px 14px;border-radius:12px;border:none;font-weight:600;display:inline-block;cursor:pointer;transition:transform .15s ease,opacity .15s}
-.btn:hover{transform:translateY(-3px);opacity:0.95}
-.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
-
-/* footer */
-.site-footer{text-align:center;padding:18px 8px;margin-top:18px;color:rgba(230,238,248,0.7)}
-
-/* auth page */
-.auth-page{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.auth-card{width:100%;max-width:420px}
-.auth-card label{display:block;margin:8px 0}
-.auth-card input, .auth-card textarea, input, textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-
-/* stats */
-.info-cards{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-.stat{flex:1;min-width:120px;padding:12px;text-align:center}
-
-/* tasks */
-.tasks-list{display:flex;flex-direction:column;gap:10px}
-.task-card .upload-row input{display:block;margin-top:8px}
-
-/* mobile nav & sidebar */
-.mobile-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:transparent}
-.hamburger{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px}
-.sidebar{position:fixed;left:0;top:60px;bottom:0;width:220px;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.6));padding:12px;backdrop-filter: blur(8px);transform:translateX(0)}
-.sidebar.hidden{transform:translateX(-120%);transition:transform .25s ease}
-.sidebar ul{list-style:none;padding:0;margin:0}
-.sidebar li{margin:8px 0}
-
-/* admin panel */
-.admin-panel .card{margin-bottom:12px}
-
-/* responsive */
-@media(min-width:800px){
-  .mobile-nav{display:none}
-  .sidebar{position:static;transform:none;width:auto;background:transparent;padding:0}
-  .container{display:flex;gap:16px}
-  main.container.padded{flex:1}
+h1, h2, h3 {
+  margin: 10px 0;
+  font-weight: 600;
 }
-.muted{color:rgba(230,238,248,0.6)}
-.small{font-size:12px}
+
+p {
+  margin: 5px 0;
+}
+
+/* =========================
+   Container & Cards
+========================= */
+.container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+/* Glass effect for sections */
+section, form, div {
+  margin: 10px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* =========================
+   Inputs & Buttons
+========================= */
+input {
+  width: 95%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+button {
+  padding: 12px 25px;
+  margin: 8px 0;
+  background: linear-gradient(90deg, #0f62ff, #00c8ff);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   Links
+========================= */
+a {
+  color: #00c8ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   Footer
+========================= */
+footer {
+  text-align: center;
+  font-size: 0.9em;
+  opacity: 0.7;
+  margin-top: 20px;
+}
+
+/* =========================
+   Sections
+========================= */
+#tasksList div, #submissions div {
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#tasksList div h3 {
+  margin: 0 0 5px 0;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 600px) {
+  .container {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  input, button {
+    width: 100%;
+  }
+}
+

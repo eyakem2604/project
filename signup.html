@@ -1,44 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Sign Up — Earn Ethiopia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Earn Ethiopia</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="auth-page">
-    <div class="glass auth-card">
-      <h2>Create account</h2>
-      <form id="signup-form">
-        <label>Full name<input id="full_name" required></label>
-        <label>Email<input id="email" type="email" required></label>
-        <label>Password<input id="password" type="password" minlength="6" required></label>
-        <button class="btn" type="submit">Sign Up</button>
-        <p class="muted">Already have an account? <a href="login.html">Login</a></p>
-      </form>
-      <div id="signup-msg" class="muted"></div>
-    </div>
-  </main>
+<div class="container">
+  <header>
+    <h1>Sign Up</h1>
+    <p>Create your account to start earning points</p>
+  </header>
 
-  <script type="module">
-    import { signUpToVerify } from './app.js';
-    const form = document.getElementById('signup-form');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const full_name = document.getElementById('full_name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      document.getElementById('signup-msg').textContent = 'Creating account...';
-      try {
-        await signUpToVerify({ email, password, full_name });
-        // redirect to verify page
-        window.location.href = 'verify.html';
-      } catch (err) {
-        document.getElementById('signup-msg').textContent = err.message || String(err);
-      }
-    });
-  </script>
+  <form id="signupForm">
+    <input type="text" id="fullName" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <p>Already have an account? <a href="login.html">Login here</a></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="app.js"></script>
+<script>
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fullName = document.getElementById("fullName").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  await signup(fullName, email, password);
+});
+</script>
 </body>
 </html>

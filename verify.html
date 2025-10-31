@@ -1,41 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Verify Email — Earn Ethiopia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify Email - Earn Ethiopia</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="auth-page">
-    <div class="glass auth-card">
-      <h2>Almost there — verify your email</h2>
-      <p id="verify-instruction">We sent a verification link to your email. Open it and confirm your address. Then return to login to access your dashboard.</p>
-      <div style="display:flex;gap:8px;margin-top:12px;">
-        <a class="btn" href="login.html">Go to Login</a>
-        <button id="resend" class="btn ghost">Resend Magic Link</button>
-      </div>
-      <p id="verify-msg" class="muted" style="margin-top:10px;"></p>
-    </div>
-  </main>
+<div class="container">
+  <header>
+    <h1>Email Verification</h1>
+    <p>Please check your email and click the verification link before logging in.</p>
+  </header>
 
-  <script type="module">
-    import { sendMagic } from './app.js';
-    document.getElementById('resend').addEventListener('click', async () => {
-      const email = localStorage.getItem('last_signup_email');
-      if (!email) {
-        document.getElementById('verify-msg').textContent = 'No recent signup detected — please enter your email on login page to resend.';
-        return;
-      }
-      document.getElementById('verify-msg').textContent = 'Sending magic link...';
-      try {
-        await sendMagic(email);
-        document.getElementById('verify-msg').textContent = 'Magic link sent to ' + email;
-      } catch (err) {
-        document.getElementById('verify-msg').textContent = err.message || String(err);
-      }
-    });
-  </script>
+  <button onclick="window.location.href='login.html'">Back to Login</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

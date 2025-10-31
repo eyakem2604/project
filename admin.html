@@ -1,91 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Admin — Earn Ethiopia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Earn Ethiopia</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="container padded">
-    <section class="glass admin-panel">
-      <h2>Admin Panel</h2>
-      <div id="admin-controls">
-        <div class="glass card">
-          <h3>Add Task</h3>
-          <form id="task-form">
-            <label>Title<input id="task-title" required></label>
-            <label>Link<input id="task-link" required></label>
-            <label>Reward (points)<input id="task-reward" type="number" min="1" required></label>
-            <button class="btn" type="submit">Add Task</button>
-          </form>
-          <div id="task-msg" class="muted"></div>
-        </div>
+<div class="container">
+  <header>
+    <h1>Admin Panel</h1>
+  </header>
 
-        <div class="glass card">
-          <h3>Announcements</h3>
-          <form id="announce-form">
-            <label>Message<textarea id="announce-text" required></textarea></label>
-            <button class="btn" type="submit">Post</button>
-          </form>
-          <div id="announce-msg" class="muted"></div>
-        </div>
+  <!-- Add Task -->
+  <section id="addTaskSection">
+    <h2>Add New Task</h2>
+    <input type="text" id="taskTitle" placeholder="Task Title">
+    <input type="text" id="taskLink" placeholder="Task Link">
+    <input type="number" id="taskReward" placeholder="Reward Points">
+    <button onclick="adminAddTask(document.getElementById('taskTitle').value, document.getElementById('taskLink').value, parseInt(document.getElementById('taskReward').value))">Add Task</button>
+  </section>
 
-        <div class="glass card">
-          <h3>Withdrawals</h3>
-          <div id="withdrawals-list" class="muted">Loading...</div>
-        </div>
+  <!-- Add Announcement -->
+  <section id="addAnnouncementSection">
+    <h2>Add Announcement</h2>
+    <input type="text" id="announcementContent" placeholder="Announcement Content">
+    <button onclick="adminAddAnnouncement(document.getElementById('announcementContent').value)">Add Announcement</button>
+  </section>
 
-        <div class="glass card">
-          <h3>User Uploads</h3>
-          <div id="uploads-list" class="muted">Loading...</div>
-        </div>
-      </div>
-    </section>
-  </main>
+  <!-- View Submissions -->
+  <section id="submissionsSection">
+    <h2>User Submissions</h2>
+    <div id="submissions"></div>
+  </section>
 
-  <footer class="site-footer">© 2025 Teenage Developer — Eyakem Takele</footer>
+  <!-- Logout -->
+  <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+  <button onclick="logout()">Logout</button>
+</div>
 
-  <script type="module">
-    import { initApp, adminLoad, adminAddTask, adminPostAnnouncement } from './app.js';
-    await initApp();
-    const isAdmin = await adminLoad();
-    if (!isAdmin) {
-      document.body.innerHTML = '<main class="container padded"><p class="muted">Access denied.</p></main>';
-      throw new Error('Access denied');
-    }
-
-    document.getElementById('task-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const title = document.getElementById('task-title').value.trim();
-      const link = document.getElementById('task-link').value.trim();
-      const reward = Number(document.getElementById('task-reward').value);
-      document.getElementById('task-msg').textContent = 'Adding...';
-      try {
-        await adminAddTask({ title, link, reward });
-        document.getElementById('task-msg').textContent = 'Task added.';
-      } catch (err) {
-        document.getElementById('task-msg').textContent = err.message || String(err);
-      }
-    });
-
-    document.getElementById('announce-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const content = document.getElementById('announce-text').value.trim();
-      document.getElementById('announce-msg').textContent = 'Posting...';
-      try {
-        await adminPostAnnouncement({ content });
-        document.getElementById('announce-msg').textContent = 'Posted.';
-      } catch (err) {
-        document.getElementById('announce-msg').textContent = err.message || String(err);
-      }
-    });
-
-    // load admin lists
-    const lists = await adminLoad({ loadLists:true });
-    document.getElementById('withdrawals-list').textContent = lists.withdrawals && lists.withdrawals.length ? JSON.stringify(lists.withdrawals, null, 2) : 'No withdrawals';
-    document.getElementById('uploads-list').textContent = lists.uploads && lists.uploads.length ? JSON.stringify(lists.uploads, null, 2) : 'No uploads';
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="app.js"></script>
+<script>
+loadSubmissions();
+</script>
 </body>
 </html>

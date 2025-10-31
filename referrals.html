@@ -1,57 +1,33 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Referrals — Earn Ethiopia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referrals - Earn Ethiopia</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="mobile-nav">
-    <button id="hamburger" class="hamburger" aria-label="menu">☰</button>
-    <div class="nav-brand">Referrals</div>
-    <div class="nav-actions">
-      <a class="btn ghost" href="dashboard.html">Back</a>
-    </div>
-  </nav>
+<div class="container">
+  <header>
+    <h1>Referrals</h1>
+    <p>Earn 5 points for every user that signs up with your referral link!</p>
+  </header>
 
-  <aside id="sidebar" class="sidebar hidden">
-    <ul>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="tasks.html">Tasks</a></li>
-      <li><a href="wallet.html">Wallet</a></li>
-      <li><a href="referrals.html">Referrals</a></li>
-    </ul>
-  </aside>
+  <section id="referralSection">
+    <p>Your referral link:</p>
+    <input type="text" id="refLink" readonly>
+    <p>Total referrals: <span id="refCount">0</span></p>
+  </section>
 
-  <main class="container padded">
-    <section class="glass">
-      <h2>Your referral link</h2>
-      <p>Earn <strong>5 points</strong> per referral.</p>
-      <div class="glass card">
-        <p id="ref-link" class="muted">Loading...</p>
-        <p>Referrals count: <strong id="ref-count">0</strong></p>
-        <button id="copy-btn" class="btn">Copy link</button>
-      </div>
-    </section>
-  </main>
+  <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+  <button onclick="logout()">Logout</button>
+</div>
 
-  <footer class="site-footer">© 2025 Teenage Developer — Eyakem Takele</footer>
-
-  <script type="module">
-    import { initApp, getReferralData } from './app.js';
-    document.getElementById('hamburger').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('hidden');
-    });
-    await initApp();
-    const data = await getReferralData();
-    document.getElementById('ref-link').textContent = data.link;
-    document.getElementById('ref-count').textContent = data.count;
-    document.getElementById('copy-btn').addEventListener('click', async () => {
-      await navigator.clipboard.writeText(data.link);
-      alert('Referral link copied to clipboard');
-    });
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="app.js"></script>
+<script>
+loadReferral();
+</script>
 </body>
 </html>

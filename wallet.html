@@ -1,69 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Wallet — Earn Ethiopia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wallet - Earn Ethiopia</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="mobile-nav">
-    <button id="hamburger" class="hamburger" aria-label="menu">☰</button>
-    <div class="nav-brand">Wallet</div>
-    <div class="nav-actions">
-      <a class="btn ghost" href="dashboard.html">Back</a>
-    </div>
-  </nav>
+<div class="container">
+  <header>
+    <h1>Wallet</h1>
+    <p>Withdraw your points via Telebirr (10 points = 1 ETB, minimum 100 ETB)</p>
+  </header>
 
-  <aside id="sidebar" class="sidebar hidden">
-    <ul>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="tasks.html">Tasks</a></li>
-      <li><a href="wallet.html">Wallet</a></li>
-      <li><a href="referrals.html">Referrals</a></li>
-    </ul>
-  </aside>
+  <form id="withdrawForm">
+    <input type="text" id="telebirrName" placeholder="Telebirr Name" required>
+    <input type="text" id="telebirrNumber" placeholder="Telebirr Number" required>
+    <button type="submit">Withdraw</button>
+  </form>
 
-  <main class="container padded">
-    <section class="glass wallet-card">
-      <h2>Your Wallet</h2>
-      <p>Total points: <strong id="points">0</strong></p>
-      <p>Conversion: 10 points = 1 ETB</p>
+  <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+  <button onclick="logout()">Logout</button>
+</div>
 
-      <form id="withdraw-form">
-        <label>Telebirr name<input id="telebirr_name" required></label>
-        <label>Telebirr number<input id="telebirr_number" required></label>
-        <label>Amount (ETB)<input id="amount" type="number" min="100" required></label>
-        <button class="btn" type="submit">Withdraw</button>
-      </form>
-
-      <div id="withdraw-msg" class="muted"></div>
-    </section>
-  </main>
-
-  <footer class="site-footer">© 2025 Teenage Developer — Eyakem Takele</footer>
-
-  <script type="module">
-    import { initApp, createWithdrawal } from './app.js';
-    document.getElementById('hamburger').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('hidden');
-    });
-    await initApp();
-    const form = document.getElementById('withdraw-form');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('telebirr_name').value.trim();
-      const number = document.getElementById('telebirr_number').value.trim();
-      const amount = Number(document.getElementById('amount').value);
-      document.getElementById('withdraw-msg').textContent = 'Processing...';
-      try {
-        await createWithdrawal({ telebirr_name: name, telebirr_number: number, amount });
-        document.getElementById('withdraw-msg').textContent = 'Withdrawal requested.';
-      } catch (err) {
-        document.getElementById('withdraw-msg').textContent = err.message || String(err);
-      }
-    });
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="app.js"></script>
+<script>
+document.getElementById("withdrawForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("telebirrName").value;
+  const number = document.getElementById("telebirrNumber").value;
+  await requestWithdrawal(name, number);
+});
+</script>
 </body>
 </html>

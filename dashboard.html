@@ -1,64 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Dashboard — Earn Ethiopia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Earn Ethiopia</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="mobile-nav">
-    <button id="hamburger" class="hamburger" aria-label="menu">☰</button>
-    <div class="nav-brand">Earn Ethiopia</div>
-    <div class="nav-actions">
-      <button id="logout-btn" class="btn ghost">Logout</button>
-    </div>
+<div class="container">
+  <header>
+    <h1 id="welcomeMsg">Welcome!</h1>
+  </header>
+
+  <section id="announcementsSection">
+    <h2>Announcements</h2>
+    <div id="announcements"></div>
+  </section>
+
+  <section id="pointsSection">
+    <h2>Your Points: <span id="points">0</span></h2>
+  </section>
+
+  <nav>
+    <a id="adminLink" href="admin.html" style="display:none;">Admin Panel</a>
+    <button onclick="window.location.href='tasks.html'">View Tasks</button>
+    <button onclick="window.location.href='wallet.html'">Wallet</button>
+    <button onclick="window.location.href='referrals.html'">Referrals</button>
+    <button onclick="logout()">Logout</button>
   </nav>
+</div>
 
-  <aside id="sidebar" class="sidebar hidden">
-    <ul>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="tasks.html">Tasks</a></li>
-      <li><a href="wallet.html">Wallet</a></li>
-      <li><a href="referrals.html">Referrals</a></li>
-      <li id="admin-link" style="display:none;"><a href="admin.html">Admin Panel</a></li>
-    </ul>
-  </aside>
-
-  <main class="container padded">
-    <section class="glass welcome-card">
-      <h2 id="welcome">Welcome</h2>
-      <p id="announcements" class="muted"></p>
-      <div class="info-cards">
-        <div class="glass stat">
-          <h3 id="points">0</h3>
-          <p>Points</p>
-        </div>
-        <div class="glass stat">
-          <h3 id="ref-count">0</h3>
-          <p>Referrals</p>
-        </div>
-      </div>
-
-      <div class="actions">
-        <a class="btn" href="tasks.html">View Tasks</a>
-        <a class="btn ghost" href="wallet.html">Wallet</a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    © 2025 Teenage Developer — Eyakem Takele
-  </footer>
-
-  <script type="module">
-    import { initApp, logout } from './app.js';
-    document.getElementById('hamburger').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('hidden');
-    });
-    document.getElementById('logout-btn').addEventListener('click', logout);
-    await initApp();
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="app.js"></script>
+<script>
+loadDashboard();
+</script>
 </body>
 </html>
