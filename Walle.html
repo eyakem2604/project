@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Ethiopia - Withdraw</title>
+    <title>Earn Ethiopia - Wallet</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,17 +24,20 @@
         </nav>
     </header>
 
-    <!-- Withdrawal Section -->
-    <main class="withdraw">
-        <h1>Request Withdrawal</h1>
-        <section class="withdraw-form">
-            <form id="withdrawForm">
-                <label for="withdrawAmount">Amount to Withdraw (ETB)</label>
-                <input type="number" id="withdrawAmount" placeholder="Enter amount" min="10" required>
+    <!-- Main Wallet Section -->
+    <main class="wallet">
+        <h1>Your Wallet</h1>
 
-                <button type="submit" class="btn-primary">Submit Request</button>
-            </form>
-            <p id="withdrawMessage"></p>
+        <section class="wallet-info">
+            <p><strong>Telebirr Name:</strong> <span id="telebirrName">Loading...</span></p>
+            <p><strong>Telebirr Phone:</strong> <span id="telebirrPhone">Loading...</span></p>
+            <p><strong>Points Balance:</strong> <span id="pointsBalance">Loading...</span></p>
+            <p><strong>Conversion:</strong> 10 points = 1 ETB</p>
+            <p><strong>Minimum Withdrawal:</strong> 100 ETB</p>
+        </section>
+
+        <section class="wallet-actions">
+            <button id="requestWithdrawal" class="btn-primary">Request Withdrawal</button>
         </section>
     </main>
 
@@ -54,6 +57,12 @@
 
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('hidden');
+        });
+
+        // Redirect to withdrawal page when button clicked
+        const withdrawalBtn = document.getElementById('requestWithdrawal');
+        withdrawalBtn.addEventListener('click', () => {
+            window.location.href = "withdraw.html";
         });
     </script>
 </body>

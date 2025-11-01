@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Ethiopia - Withdraw</title>
+    <title>Earn Ethiopia - Referrals</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,17 +24,27 @@
         </nav>
     </header>
 
-    <!-- Withdrawal Section -->
-    <main class="withdraw">
-        <h1>Request Withdrawal</h1>
-        <section class="withdraw-form">
-            <form id="withdrawForm">
-                <label for="withdrawAmount">Amount to Withdraw (ETB)</label>
-                <input type="number" id="withdrawAmount" placeholder="Enter amount" min="10" required>
+    <!-- Referral Section -->
+    <main class="referrals">
+        <h1>Your Referrals</h1>
 
-                <button type="submit" class="btn-primary">Submit Request</button>
-            </form>
-            <p id="withdrawMessage"></p>
+        <!-- Referral Code -->
+        <section class="referral-code">
+            <p><strong>Your Referral Code:</strong> <span id="userReferralCode">Loading...</span></p>
+            <button id="copyReferral" class="btn-secondary">Copy Code</button>
+        </section>
+
+        <!-- Referred Users List -->
+        <section class="referred-users">
+            <h2>Referred Users</h2>
+            <ul id="referralList">
+                <li>Loading referred users...</li>
+            </ul>
+        </section>
+
+        <!-- Points from Referrals -->
+        <section class="referral-points">
+            <p><strong>Points Earned from Referrals:</strong> <span id="referralPoints">0</span></p>
         </section>
     </main>
 
@@ -54,6 +64,15 @@
 
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('hidden');
+        });
+
+        // Copy referral code to clipboard
+        const copyBtn = document.getElementById('copyReferral');
+        copyBtn.addEventListener('click', () => {
+            const code = document.getElementById('userReferralCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Referral code copied!');
+            });
         });
     </script>
 </body>

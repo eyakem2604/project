@@ -1,303 +1,238 @@
-// -------------------- Appwrite Setup --------------------
-import { Client, Account, Databases, Storage } from "https://cdn.jsdelivr.net/npm/appwrite@8.0.0/dist/appwrite.min.js";
+// ===================== Appwrite SDK Setup =====================
+import { Client, Account, Databases, Storage } from "https://cdn.jsdelivr.net/npm/appwrite@10.6.0/dist/appwrite.min.js";
 
+// Appwrite client setup
 const client = new Client();
-client.setEndpoint("https://fra.cloud.appwrite.io/v1").setProject("69050375000bafcad6f1");
+client
+    .setEndpoint("https://fra.cloud.appwrite.io/v1")
+    .setProject("69050375000bafcad6f1");
 
 const account = new Account(client);
 const databases = new Databases(client);
 const storage = new Storage(client);
 
-// -------------------- GLOBAL --------------------
-let userEmail = "";
-let userPoints = 0;
+// Admin email
+const adminEmail = "eyakemabi@gmail.com";
 
-// -------------------- HAMBURGER MENU --------------------
-function toggleMenu() {
-    const nav = document.querySelector("header nav");
-    nav.classList.toggle("active");
-}
-
-// -------------------- LOGOUT --------------------
-function logout() {
-    account.deleteSession('current').then(() => {
-        localStorage.clear();
+// ===================== Auth Functions =====================
+export async function signup(email, password) {
+    try {
+        await account.create(email, password);
+        alert("Signup successful! Please login.");
         window.location.href = "login.html";
-    });
+    } catch (error) {
+        alert(error.message);
+    }
 }
 
-// -------------------- SIGNUP --------------------
-if(document.getElementById("signupForm")) {
-    document.getElementById("signupForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const name = document.getElementById("signupName").value;
-        const email = document.getElementById("signupEmail").value;
-        const password = document.getElementById("signupPassword").value;
-
-        try {
-            await account.create("unique()", email, password, name);
-            localStorage.setItem("userEmail", email);
-            localStorage.setItem("userPoints", 0);
-            alert("Signup successful! Verify your email.");
-            window.location.href = "verify.html";
-        } catch (err) {
-            alert(err.message);
-        }
-    });
+export async function login(email, password) {
+    try {
+        await account.createSession(email, password);
+        window.location.href = "dashboard.html";
+    } catch (error) {
+        alert(error.message);
+    }
 }
 
-// -------------------- VERIFY --------------------
-if(document.getElementById("verifyForm")) {
-    document.getElementById("verifyForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        alert("Email verified! You can login now.");
+export async function logout() {
+    try {
+        await account.deleteSession('current');
         window.location.href = "login.html";
-    });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-// -------------------- LOGIN --------------------
-if(document.getElementById("loginForm")) {
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("loginEmail").value;
-        const password = document.getElementById("loginPassword").value;
+// ===================== Dashboard Functions =====================
+export async function loadDashboard() {
+    try {
+        const user = await account.get();
 
-        try {
-            await account.createSession(email, password);
-            localStorage.setItem("userEmail", email);
-            if(!localStorage.getItem("userPoints")) localStorage.setItem("userPoints", 0);
-            window.location.href = "dashboard.html";
-        } catch (err) {
-            alert(err.message);
+        // Show admin link if email matches
+        if (user.email === adminEmail) {
+            document.getElementById("adminLink")?.classList.remove("hidden");
         }
-    });
-}
 
-// -------------------- DASHBOARD --------------------
-if(document.getElementById("pointsBalance")) {
-    userEmail = localStorage.getItem("userEmail") || "";
-    userPoints = parseInt(localStorage.getItem("userPoints") || 0);
+        // Load points
+        const pointsData = await databases.getDocument("EarnEthiopiaDB", "User", user.$id);
+        document.getElementById("pointsBalance")?.textContent = pointsData.points || 0;
 
-    document.getElementById("pointsBalance").innerText = userPoints;
+        // Load referral code
+        document.getElementById("userReferralCode")?.textContent = pointsData.referralCode || "N/A";
 
-    // Example announcements
-    const announcements = ["Welcome to Earn Ethiopia!", "New tasks added today!"];
-    const annList = document.getElementById("announcementsList");
-    announcements.forEach(a=>{
-        const li = document.createElement("li");
-        li.innerText = a;
-        annList.appendChild(li);
-    });
-
-    // Example recent tasks
-    const recentTasks = ["Visit Website X", "Follow Telegram Y"];
-    const taskList = document.getElementById("recentTasks");
-    recentTasks.forEach(t=>{
-        const li = document.createElement("li");
-        li.innerText = t;
-        taskList.appendChild(li);
-    });
-
-    // Referral info
-    document.getElementById("referralCode").innerText = "ETHE1234";
-    const referredUsers = ["user1@gmail.com","user2@gmail.com"];
-    const refList = document.getElementById("referredUsers");
-    referredUsers.forEach(r=>{
-        const li = document.createElement("li");
-        li.innerText = r;
-        refList.appendChild(li);
-    });
-
-    // Admin link
-    if(userEmail === "eyakemabi@gmail.com") {
-        document.getElementById("adminLink").classList.remove("hidden");
-    }
-}
-
-// -------------------- TASKS PAGE --------------------
-if(document.getElementById("tasksList")) {
-    const tasks = [
-        {title:"Visit Website X", points:10, link:"https://example.com"},
-        {title:"Follow Telegram Y", points:5, link:"https://t.me/PromotionEmpire"}
-    ];
-    const tasksList = document.getElementById("tasksList");
-    tasks.forEach(t=>{
-        const div = document.createElement("div");
-        div.className = "profile-card";
-        div.innerHTML = `<h4>${t.title}</h4><p>Points: ${t.points}</p><a href="${t.link}" target="_blank" class="btn">Go</a>`;
-        tasksList.appendChild(div);
-    });
-
-    // Screenshot Upload
-    if(document.getElementById("screenshotForm")) {
-        document.getElementById("screenshotForm").addEventListener("submit", async (e)=>{
-            e.preventDefault();
-            const file = document.getElementById("screenshotFile").files[0];
-            if(!file) return alert("Select a file");
-            try{
-                await storage.createFile("unique()", file);
-                document.getElementById("screenshotStatus").innerText = "Screenshot uploaded! Pending admin approval.";
-            }catch(err){
-                alert(err.message);
-            }
-        });
-    }
-}
-
-// -------------------- WALLET --------------------
-if(document.getElementById("walletPoints")) {
-    const points = parseInt(localStorage.getItem("userPoints")||0);
-    const ETB = Math.floor(points/10);
-    document.getElementById("walletPoints").innerText = points;
-    document.getElementById("walletETB").innerText = ETB;
-    document.getElementById("walletName").innerText = "Your Name";
-    document.getElementById("walletPhone").innerText = "0912345678";
-
-    document.getElementById("requestWithdrawalBtn").addEventListener("click", ()=>{
-        localStorage.setItem("availableETB", ETB);
-        window.location.href = "withdraw.html";
-    });
-}
-
-// -------------------- WITHDRAW PAGE --------------------
-if(document.getElementById("withdrawForm")) {
-    const form = document.getElementById("withdrawForm");
-    const availableETB = parseInt(localStorage.getItem("availableETB")||0);
-    const input = document.getElementById("withdrawAmount");
-    input.setAttribute("max", availableETB);
-    input.setAttribute("min",100);
-    input.placeholder = `Amount (ETB, max ${availableETB})`;
-
-    form.addEventListener("submit", async (e)=>{
-        e.preventDefault();
-        const name = document.getElementById("telebirrName").value;
-        const phone = document.getElementById("telebirrPhone").value;
-        const amount = parseInt(document.getElementById("withdrawAmount").value);
-        if(amount < 100 || amount > availableETB) return alert("Invalid amount");
-
-        try{
-            await databases.createDocument("earn_eth_db","withdrawals","unique()",{
-                name, phone, amount, status:"pending", email:userEmail
-            });
-            userPoints -= amount*10;
-            localStorage.setItem("userPoints", userPoints);
-            alert("Withdrawal request submitted!");
-            window.location.href = "wallet.html";
-        }catch(err){
-            alert(err.message);
+        // Load announcements
+        const announcements = await databases.listDocuments("EarnEthiopiaDB", "Announcements");
+        const announcementList = document.getElementById("announcementsList");
+        const announcementListAdmin = document.getElementById("announcementsListAdmin");
+        if (announcementList) {
+            announcementList.innerHTML = announcements.documents.map(a => `<li>${a.title}: ${a.message}</li>`).join("");
         }
-    });
-}
+        if (announcementListAdmin) {
+            announcementListAdmin.innerHTML = announcements.documents.map(a => `<div class="card">${a.title}: ${a.message}</div>`).join("");
+        }
 
-// -------------------- REFERRALS --------------------
-if(document.getElementById("referredUsers")){
-    document.getElementById("referralCode").innerText="ETHE1234";
-    const referredUsers = ["user1@gmail.com","user2@gmail.com"];
-    const list = document.getElementById("referredUsers");
-    if(referredUsers.length===0) document.getElementById("noReferrals").style.display="block";
-    else{
-        document.getElementById("noReferrals").style.display="none";
-        referredUsers.forEach(r=>{
-            const li = document.createElement("li");
-            li.innerText = r;
-            list.appendChild(li);
-        });
+        // Load tasks
+        const tasks = await databases.listDocuments("EarnEthiopiaDB", "Tasks");
+        const tasksList = document.getElementById("tasksList");
+        const tasksAdminList = document.getElementById("tasksListAdmin");
+        if (tasksList) {
+            tasksList.innerHTML = tasks.documents.map(task => `
+                <div class="task-card">
+                    <h3>${task.title}</h3>
+                    <p>${task.description}</p>
+                    <a href="${task.link}" target="_blank" class="btn-primary task-link" data-task-id="${task.$id}">Open Task</a>
+                    <input type="file" class="screenshot-upload" data-task-id="${task.$id}" accept="image/*">
+                    <button class="btn-secondary submit-screenshot" data-task-id="${task.$id}">Submit Screenshot</button>
+                </div>
+            `).join("");
+        }
+        if (tasksAdminList) {
+            tasksAdminList.innerHTML = tasks.documents.map(task => `
+                <div class="card">
+                    <h4>${task.title}</h4>
+                    <p>${task.description}</p>
+                    <button class="btn-secondary" onclick="deleteTask('${task.$id}')">Delete</button>
+                </div>
+            `).join("");
+        }
+
+        // Load referrals
+        const referralList = document.getElementById("referralList");
+        const referralPoints = document.getElementById("referralPoints");
+        if (referralList) {
+            const referrals = await databases.listDocuments("EarnEthiopiaDB", "Referrals", [`userId=${user.$id}`]);
+            referralList.innerHTML = referrals.documents.map(r => `<li>${r.referredUserEmail}</li>`).join("");
+            referralPoints.textContent = referrals.documents.length * 5; // 5 points per referral
+        }
+
+        // Load users (Admin)
+        const usersListAdmin = document.getElementById("usersListAdmin");
+        if (usersListAdmin && user.email === adminEmail) {
+            const users = await databases.listDocuments("EarnEthiopiaDB", "User");
+            usersListAdmin.innerHTML = users.documents.map(u => `<div class="card">${u.email} - Points: ${u.points || 0} <button onclick="banUser('${u.$id}')">Ban</button></div>`).join("");
+        }
+
+        // Load pending screenshots (Admin)
+        const screenshotsListAdmin = document.getElementById("screenshotsListAdmin");
+        if (screenshotsListAdmin && user.email === adminEmail) {
+            const submissions = await databases.listDocuments("EarnEthiopiaDB", "Screenshots");
+            screenshotsListAdmin.innerHTML = submissions.documents.map(s => `
+                <div class="card">
+                    <p>User: ${s.userEmail}</p>
+                    <img src="${s.fileUrl}" width="100">
+                    <button onclick="approveScreenshot('${s.$id}')">Approve</button>
+                </div>
+            `).join("");
+        }
+
+        attachTaskScreenshotHandlers();
+    } catch (error) {
+        console.log(error);
+        window.location.href = "login.html";
     }
 }
 
-// -------------------- PROFILE PAGE --------------------
-if(document.getElementById("profileName")){
-    document.getElementById("profileName").innerText="Your Name";
-    document.getElementById("profileEmail").innerText=userEmail||"email@example.com";
-    document.getElementById("profilePhone").innerText="0912345678";
-    document.getElementById("profilePoints").innerText=localStorage.getItem("userPoints")||0;
+// ===================== Task Screenshot Submission =====================
+function attachTaskScreenshotHandlers() {
+    const submitButtons = document.querySelectorAll(".submit-screenshot");
+    submitButtons.forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+            const taskId = e.target.dataset.taskId;
+            const fileInput = document.querySelector(`.screenshot-upload[data-task-id='${taskId}']`);
+            if (!fileInput.files[0]) return alert("Please select a screenshot.");
 
-    const editBtn = document.getElementById("editProfileBtn");
-    const editSection = document.getElementById("editProfileSection");
-    editBtn.addEventListener("click",()=>editSection.style.display="block");
+            const file = fileInput.files[0];
+            const fileUploaded = await storage.createFile("EarnEthiopiaBucket", file.name + Date.now(), file);
+            const user = await account.get();
 
-    document.getElementById("editProfileForm").addEventListener("submit",(e)=>{
-        e.preventDefault();
-        const name = document.getElementById("editName").value;
-        const phone = document.getElementById("editPhone").value;
-        document.getElementById("profileName").innerText=name;
-        document.getElementById("profilePhone").innerText=phone;
-        document.getElementById("editStatus").innerText="Profile updated!";
-    });
-}
-
-// -------------------- ADMIN PANEL --------------------
-if(document.getElementById("announcementForm")){
-    if(userEmail !== "eyakemabi@gmail.com") window.location.href="dashboard.html";
-
-    const annForm=document.getElementById("announcementForm");
-    const annList=document.getElementById("announcementListAdmin");
-    annForm.addEventListener("submit",(e)=>{
-        e.preventDefault();
-        const text=document.getElementById("announcementInput").value;
-        const li=document.createElement("li");
-        li.innerText=text;
-        annList.appendChild(li);
-        document.getElementById("announcementInput").value="";
-    });
-
-    // Tasks Management
-    const taskForm=document.getElementById("taskForm");
-    const taskListAdmin=document.getElementById("tasksListAdmin");
-    taskForm.addEventListener("submit",(e)=>{
-        e.preventDefault();
-        const title=document.getElementById("taskTitle").value;
-        const link=document.getElementById("taskLink").value;
-        const points=document.getElementById("taskPoints").value;
-        const li=document.createElement("li");
-        li.innerText=`${title} - ${points} pts`;
-        taskListAdmin.appendChild(li);
-        document.getElementById("taskTitle").value="";
-        document.getElementById("taskLink").value="";
-        document.getElementById("taskPoints").value="";
-    });
-
-    // Users and Withdrawals (Example Lists)
-    const usersListAdmin=document.getElementById("usersListAdmin");
-    const withdrawalsListAdmin=document.getElementById("withdrawalsListAdmin");
-    const users=["user1@gmail.com","user2@gmail.com"];
-    users.forEach(u=>{
-        const li=document.createElement("li");
-        li.innerText=u;
-        const btn=document.createElement("button");
-        btn.innerText="Ban";
-        btn.className="btn";
-        btn.onclick=()=>li.style.textDecoration="line-through";
-        li.appendChild(btn);
-        usersListAdmin.appendChild(li);
-    });
-
-    const withdrawals=[{email:"user1@gmail.com",amount:150,status:"pending"}];
-    withdrawals.forEach(w=>{
-        const li=document.createElement("li");
-        li.innerText=`${w.email} requested ${w.amount} ETB - ${w.status}`;
-        const approve=document.createElement("button");
-        approve.innerText="Approve"; approve.className="btn";
-        approve.onclick=()=>li.innerText+= " ✅ Approved";
-        li.appendChild(approve);
-        withdrawalsListAdmin.appendChild(li);
-    });
-}
-
-// -------------------- CONTACT PAGE --------------------
-if(document.getElementById("contactForm")){
-    document.getElementById("contactForm").addEventListener("submit", async (e)=>{
-        e.preventDefault();
-        const name=document.getElementById("contactName").value;
-        const email=document.getElementById("contactEmail").value;
-        const message=document.getElementById("contactMessage").value;
-        try{
-            await databases.createDocument("earn_eth_db","contacts","unique()",{
-                name,email,message
+            await databases.createDocument("EarnEthiopiaDB", "Screenshots", "unique()", {
+                userId: user.$id,
+                userEmail: user.email,
+                taskId: taskId,
+                fileId: fileUploaded.$id,
+                fileUrl: fileUploaded.$id ? fileUploaded.$id : ""
             });
-            document.getElementById("contactStatus").innerText="Message sent!";
-            document.getElementById("contactForm").reset();
-        }catch(err){ alert(err.message); }
+
+            alert("Screenshot submitted successfully!");
+        });
     });
+}
+
+// ===================== Withdraw =====================
+export async function requestWithdrawal(amount) {
+    try {
+        const user = await account.get();
+        const userDoc = await databases.getDocument("EarnEthiopiaDB", "User", user.$id);
+
+        const points = userDoc.points || 0;
+        const requiredPoints = amount * 10; // 10 points = 1 ETB
+
+        if (amount < 100) return alert("Minimum withdrawal is 100 ETB.");
+        if (points < requiredPoints) return alert("Insufficient points.");
+
+        // Deduct points
+        await databases.updateDocument("EarnEthiopiaDB", "User", user.$id, {
+            points: points - requiredPoints
+        });
+
+        // Create withdrawal request
+        await databases.createDocument("EarnEthiopiaDB", "Withdrawals", "unique()", {
+            userId: user.$id,
+            userEmail: user.email,
+            amountETB: amount,
+            status: "pending",
+            timestamp: new Date().toISOString()
+        });
+
+        alert("Withdrawal requested successfully!");
+        window.location.href = "wallet.html";
+    } catch (error) {
+        console.log(error);
+        alert("Error processing withdrawal.");
+    }
+}
+
+// ===================== Admin Functions =====================
+export async function deleteTask(taskId) {
+    await databases.deleteDocument("EarnEthiopiaDB", "Tasks", taskId);
+    alert("Task deleted!");
+    loadDashboard();
+}
+
+export async function banUser(userId) {
+    await databases.updateDocument("EarnEthiopiaDB", "User", userId, { banned: true });
+    alert("User banned!");
+    loadDashboard();
+}
+
+export async function approveScreenshot(screenshotId) {
+    const screenshot = await databases.getDocument("EarnEthiopiaDB", "Screenshots", screenshotId);
+    const taskDoc = await databases.getDocument("EarnEthiopiaDB", "Tasks", screenshot.taskId);
+    const userDoc = await databases.getDocument("EarnEthiopiaDB", "User", screenshot.userId);
+
+    const newPoints = (userDoc.points || 0) + (taskDoc.points || 10);
+    await databases.updateDocument("EarnEthiopiaDB", "User", screenshot.userId, { points: newPoints });
+
+    // Delete screenshot after approval
+    await databases.deleteDocument("EarnEthiopiaDB", "Screenshots", screenshotId);
+    alert("Screenshot approved!");
+    loadDashboard();
+}
+
+// ===================== Event Listeners =====================
+document.getElementById("logoutBtn")?.addEventListener("click", logout);
+document.getElementById("withdrawForm")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const amount = parseInt(document.getElementById("withdrawAmount").value);
+    requestWithdrawal(amount);
+});
+
+// ===================== Initialization =====================
+if (document.body.contains(document.querySelector(".dashboard")) || 
+    document.body.contains(document.querySelector(".tasks")) || 
+    document.body.contains(document.querySelector(".wallet")) ||
+    document.body.contains(document.querySelector(".referrals")) ||
+    document.body.contains(document.querySelector(".admin-panel"))) {
+    loadDashboard();
 }
 

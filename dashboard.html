@@ -7,60 +7,75 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
+    <!-- Header with Hamburger Menu -->
+    <header class="header">
         <div class="logo">Earn Ethiopia</div>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="tasks.html">Tasks</a>
-            <a href="wallet.html">Wallet</a>
-            <a href="referrals.html">Referrals</a>
-            <a href="profile.html">Profile</a>
-            <a href="admin.html" id="adminLink" class="hidden">Admin Panel</a>
-            <a href="contact.html">Contact</a>
-            <a href="#" onclick="logout()">Logout</a>
+        <button id="menuToggle" class="hamburger">&#9776;</button>
+        <nav id="sidebar" class="sidebar hidden">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="tasks.html">Tasks</a></li>
+                <li><a href="wallet.html">Wallet</a></li>
+                <li><a href="referrals.html">Referrals</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="adminLink" class="hidden"><a href="admin.html">Admin Panel</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
         </nav>
     </header>
 
-    <!-- Main Dashboard -->
-    <main>
-        <section class="profile-card">
-            <h2>Welcome to Earn Ethiopia</h2>
-            <p>Your points balance: <span id="pointsBalance">0</span> pts</p>
+    <!-- Main Dashboard Content -->
+    <main class="dashboard">
+        <h1>Welcome to Earn Ethiopia</h1>
+
+        <!-- Points Balance -->
+        <section class="points">
+            <h2>Your Points</h2>
+            <p id="pointsBalance">Loading...</p>
         </section>
 
         <!-- Announcements -->
-        <section>
-            <h3>Announcements</h3>
+        <section class="announcements">
+            <h2>Announcements</h2>
             <ul id="announcementsList">
-                <!-- Populated dynamically from app.js -->
+                <li>Loading announcements...</li>
             </ul>
         </section>
 
         <!-- Recent Tasks -->
-        <section>
-            <h3>Recent Tasks</h3>
-            <ul id="recentTasks">
-                <!-- Populated dynamically from app.js -->
-            </ul>
+        <section class="recent-tasks">
+            <h2>Recent Tasks</h2>
+            <div id="tasksList">
+                <p>Loading tasks...</p>
+            </div>
         </section>
 
         <!-- Referral Info -->
-        <section class="profile-card">
-            <h3>Your Referral Code</h3>
-            <p><strong id="referralCode">ETHE1234</strong></p>
-            <h4>Referred Users</h4>
-            <ul id="referredUsers">
-                <!-- Populated dynamically from app.js -->
+        <section class="referrals">
+            <h2>Your Referrals</h2>
+            <ul id="referralList">
+                <li>Loading referrals...</li>
             </ul>
         </section>
     </main>
 
-    <footer style="text-align:center; margin-top:2rem;">
-        <p>&copy; 2025 Teenage Developer Eyakem Takele</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; Teenage Developer Eyakem Takele</p>
+        <p>Contact: <a href="https://t.me/PromotionEmpire" target="_blank">@PromotionEmpire</a></p>
     </footer>
 
-    <script src="app.js"></script>
+    <!-- Appwrite JS -->
+    <script type="module" src="app.js"></script>
+
+    <!-- Dashboard JS for Hamburger Menu -->
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>

@@ -7,51 +7,55 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
+    <!-- Header with Hamburger Menu -->
+    <header class="header">
         <div class="logo">Earn Ethiopia</div>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="tasks.html">Tasks</a>
-            <a href="wallet.html">Wallet</a>
-            <a href="referrals.html">Referrals</a>
-            <a href="profile.html">Profile</a>
-            <a href="admin.html" id="adminLink" class="hidden">Admin Panel</a>
-            <a href="contact.html">Contact</a>
-            <a href="#" onclick="logout()">Logout</a>
+        <button id="menuToggle" class="hamburger">&#9776;</button>
+        <nav id="sidebar" class="sidebar hidden">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="tasks.html">Tasks</a></li>
+                <li><a href="wallet.html">Wallet</a></li>
+                <li><a href="referrals.html">Referrals</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="adminLink" class="hidden"><a href="admin.html">Admin Panel</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
         </nav>
     </header>
 
-    <main>
-        <h2>Available Tasks</h2>
+    <!-- Main Tasks Section -->
+    <main class="tasks">
+        <h1>Available Tasks</h1>
         <div id="tasksList">
-            <!-- Populated dynamically from app.js -->
-        </div>
-
-        <!-- Screenshot Upload Modal -->
-        <section class="profile-card">
-            <h3>Upload Screenshot for Points</h3>
-            <form id="screenshotForm">
-                <input type="file" id="screenshotFile" accept="image/*" required>
-                <button type="submit" class="btn">Upload</button>
-            </form>
-            <div id="screenshotStatus"></div>
-        </section>
-
-        <!-- Google Ads Placeholder -->
-        <section class="profile-card">
-            <h3>Sponsored Content</h3>
-            <div style="background:#001933; color:#00ccff; padding:1rem; text-align:center;">
-                Google Ads Placeholder (Non-incentivized)
+            <!-- Example task card structure (JS will populate) -->
+            <div class="task-card">
+                <h3>Visit Website</h3>
+                <p>Visit the link and upload a screenshot to earn 10 points.</p>
+                <a href="#" target="_blank" class="btn-primary task-link" data-task-id="1">Open Task</a>
+                <input type="file" class="screenshot-upload" data-task-id="1" accept="image/*">
+                <button class="btn-secondary submit-screenshot" data-task-id="1">Submit Screenshot</button>
             </div>
-        </section>
+        </div>
     </main>
 
-    <footer style="text-align:center; margin-top:2rem;">
-        <p>&copy; 2025 Teenage Developer Eyakem Takele</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; Teenage Developer Eyakem Takele</p>
+        <p>Contact: <a href="https://t.me/PromotionEmpire" target="_blank">@PromotionEmpire</a></p>
     </footer>
 
-    <script src="app.js"></script>
+    <!-- Appwrite JS -->
+    <script type="module" src="app.js"></script>
+
+    <!-- Hamburger Menu Script -->
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>

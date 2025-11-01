@@ -3,55 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Ethiopia - Home</title>
+    <title>Earn Ethiopia - Landing Page</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header class="header">
         <div class="logo">Earn Ethiopia</div>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="login.html">Login</a>
-            <a href="signup.html">Sign Up</a>
-            <a href="contact.html">Contact</a>
+            <ul>
+                <li><a href="signup.html" class="btn-primary">Sign Up</a></li>
+                <li><a href="login.html" class="btn-secondary">Login</a></li>
+            </ul>
         </nav>
     </header>
 
     <!-- Hero Section -->
-    <main>
-        <section class="hero">
+    <section class="hero">
+        <div class="hero-content">
             <h1>Welcome to Earn Ethiopia</h1>
-            <p>Complete tasks, watch ads, invite friends, and earn rewards! Your points can be withdrawn via Telebirr.</p>
+            <p>Complete tasks, earn points, withdraw via Telebirr, and refer friends!</p>
             <div class="hero-buttons">
-                <a href="signup.html" class="btn">Sign Up</a>
-                <a href="login.html" class="btn">Login</a>
+                <a href="signup.html" class="btn-primary">Get Started</a>
+                <a href="login.html" class="btn-secondary">Login</a>
             </div>
-        </section>
+        </div>
+        <div class="hero-image">
+            <img src="assets/images/hero-placeholder.png" alt="Earn Ethiopia Hero Image">
+        </div>
+    </section>
 
-        <!-- Features Section -->
-        <section class="features">
-            <div class="profile-card">
-                <h3>Easy Tasks</h3>
-                <p>Complete simple online tasks and earn points quickly.</p>
+    <!-- Features Section -->
+    <section class="features">
+        <h2>How It Works</h2>
+        <div class="feature-cards">
+            <div class="card">
+                <h3>Complete Tasks</h3>
+                <p>Engage with tasks and earn points for each completed task.</p>
             </div>
-            <div class="profile-card">
-                <h3>Referral Bonus</h3>
-                <p>Invite friends and earn 5 points per successful referral.</p>
+            <div class="card">
+                <h3>Withdraw Points</h3>
+                <p>Convert points to ETB and withdraw to your Telebirr account.</p>
             </div>
-            <div class="profile-card">
-                <h3>Instant Withdrawals</h3>
-                <p>Convert points to ETB and withdraw directly to your Telebirr account.</p>
+            <div class="card">
+                <h3>Refer Friends</h3>
+                <p>Get extra points for referring friends to Earn Ethiopia.</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Footer -->
-        <footer style="text-align:center; margin-top:2rem;">
-            <p>&copy; 2025 Teenage Developer Eyakem Takele</p>
-        </footer>
-    </main>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; Teenage Developer Eyakem Takele</p>
+        <p>Contact: <a href="https://t.me/PromotionEmpire" target="_blank">@PromotionEmpire</a></p>
+    </footer>
 
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>

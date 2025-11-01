@@ -7,31 +7,35 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
+    <header class="header">
         <div class="logo">Earn Ethiopia</div>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="login.html">Login</a>
-            <a href="signup.html">Sign Up</a>
-            <a href="contact.html">Contact</a>
+            <ul>
+                <li><a href="signup.html" class="btn-secondary">Sign Up</a></li>
+            </ul>
         </nav>
     </header>
 
-    <!-- Login Form -->
-    <main>
-        <section class="profile-card">
-            <h2>Login to Your Account</h2>
-            <form id="loginForm">
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Password" required>
-                <button type="submit" class="btn">Login</button>
-            </form>
-            <p style="margin-top:1rem;">Don't have an account? <a href="signup.html" style="color:#00ccff;">Sign up here</a></p>
-        </section>
-    </main>
+    <section class="login-section">
+        <h2>Login to Your Account</h2>
+        <form id="loginForm">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email" required>
 
-    <script src="app.js"></script>
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; Teenage Developer Eyakem Takele</p>
+        <p>Contact: <a href="https://t.me/PromotionEmpire" target="_blank">@PromotionEmpire</a></p>
+    </footer>
+
+    <script type="module" src="app.js"></script>
 </body>
 </html>

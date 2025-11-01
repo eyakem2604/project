@@ -7,72 +7,89 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="logo">Earn Ethiopia</div>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="tasks.html">Tasks</a>
-            <a href="wallet.html">Wallet</a>
-            <a href="referrals.html">Referrals</a>
-            <a href="profile.html">Profile</a>
-            <a href="admin.html">Admin Panel</a>
-            <a href="contact.html">Contact</a>
-            <a href="#" onclick="logout()">Logout</a>
+    <!-- Header with Hamburger Menu -->
+    <header class="header">
+        <div class="logo">Earn Ethiopia Admin</div>
+        <button id="menuToggle" class="hamburger">&#9776;</button>
+        <nav id="sidebar" class="sidebar hidden">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="tasks.html">Tasks</a></li>
+                <li><a href="wallet.html">Wallet</a></li>
+                <li><a href="referrals.html">Referrals</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
         </nav>
     </header>
 
-    <main>
-        <h2>Admin Panel</h2>
-
-        <!-- Manage Announcements -->
-        <section class="profile-card">
-            <h3>Announcements</h3>
-            <form id="announcementForm">
-                <input type="text" id="announcementInput" placeholder="New Announcement" required>
-                <button type="submit" class="btn">Add Announcement</button>
-            </form>
-            <ul id="announcementListAdmin">
-                <!-- Populated from app.js -->
-            </ul>
-        </section>
+    <!-- Admin Panel -->
+    <main class="admin-panel">
+        <h1>Admin Panel</h1>
+        <p id="adminWarning">Only accessible by admin.</p>
 
         <!-- Manage Tasks -->
-        <section class="profile-card" style="margin-top:2rem;">
-            <h3>Tasks Management</h3>
-            <form id="taskForm">
-                <input type="text" id="taskTitle" placeholder="Task Title" required>
-                <input type="text" id="taskLink" placeholder="Task External Link" required>
-                <input type="number" id="taskPoints" placeholder="Points" required>
-                <button type="submit" class="btn">Add Task</button>
-            </form>
-            <ul id="tasksListAdmin">
-                <!-- Populated from app.js -->
-            </ul>
+        <section class="admin-tasks">
+            <h2>Manage Tasks</h2>
+            <button id="addTaskBtn" class="btn-primary">Add Task</button>
+            <div id="tasksListAdmin">
+                <p>Loading tasks...</p>
+            </div>
         </section>
 
-        <!-- Withdrawal Approvals -->
-        <section class="profile-card" style="margin-top:2rem;">
-            <h3>Pending Withdrawals</h3>
-            <ul id="withdrawalsListAdmin">
-                <!-- Populated from app.js -->
-            </ul>
+        <!-- Manage Announcements -->
+        <section class="admin-announcements">
+            <h2>Manage Announcements</h2>
+            <button id="addAnnouncementBtn" class="btn-primary">Add Announcement</button>
+            <div id="announcementsListAdmin">
+                <p>Loading announcements...</p>
+            </div>
         </section>
 
-        <!-- Users Management -->
-        <section class="profile-card" style="margin-top:2rem;">
-            <h3>All Users</h3>
-            <ul id="usersListAdmin">
-                <!-- Populated from app.js -->
-            </ul>
+        <!-- Manage Users -->
+        <section class="admin-users">
+            <h2>Manage Users</h2>
+            <div id="usersListAdmin">
+                <p>Loading users...</p>
+            </div>
+        </section>
+
+        <!-- Approve Screenshots -->
+        <section class="admin-screenshots">
+            <h2>Approve Screenshots</h2>
+            <div id="screenshotsListAdmin">
+                <p>Loading submissions...</p>
+            </div>
         </section>
     </main>
 
-    <footer style="text-align:center; margin-top:2rem;">
-        <p>&copy; 2025 Teenage Developer Eyakem Takele</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; Teenage Developer Eyakem Takele</p>
+        <p>Contact: <a href="https://t.me/PromotionEmpire" target="_blank">@PromotionEmpire</a></p>
     </footer>
 
-    <script src="app.js"></script>
+    <!-- Appwrite JS -->
+    <script type="module" src="app.js"></script>
+
+    <!-- Hamburger Menu Script -->
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+
+        // Admin check (show content only for admin)
+        const adminEmail = "eyakemabi@gmail.com";
+        appwrite.account.get().then(account => {
+            if(account.email !== adminEmail){
+                document.querySelector('.admin-panel').innerHTML = "<p>Access Denied. You are not admin.</p>";
+            }
+        }).catch(() => {
+            window.location.href = "login.html";
+        });
+    </script>
 </body>
 </html>
