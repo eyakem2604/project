@@ -1,62 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Earn Ethiopia</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Ethiopia - Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>Admin Panel</h1>
-    <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
-  </header>
+    <!-- Header -->
+    <header>
+        <div class="logo">Earn Ethiopia</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="wallet.html">Wallet</a>
+            <a href="referrals.html">Referrals</a>
+            <a href="profile.html">Profile</a>
+            <a href="admin.html">Admin Panel</a>
+            <a href="contact.html">Contact</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
 
-  <section>
-    <h2>Add Task</h2>
-    <input type="text" id="taskTitle" placeholder="Title">
-    <input type="text" id="taskLink" placeholder="Link">
-    <input type="number" id="taskReward" placeholder="Reward Points">
-    <button id="addTaskBtn">Add Task</button>
-  </section>
+    <main>
+        <h2>Admin Panel</h2>
 
-  <section>
-    <h2>Add Announcement</h2>
-    <textarea id="announcementContent" placeholder="Content"></textarea>
-    <button id="addAnnouncementBtn">Add Announcement</button>
-  </section>
+        <!-- Manage Announcements -->
+        <section class="profile-card">
+            <h3>Announcements</h3>
+            <form id="announcementForm">
+                <input type="text" id="announcementInput" placeholder="New Announcement" required>
+                <button type="submit" class="btn">Add Announcement</button>
+            </form>
+            <ul id="announcementListAdmin">
+                <!-- Populated from app.js -->
+            </ul>
+        </section>
 
-  <section>
-    <h2>Submissions</h2>
-    <div id="submissions"></div>
-  </section>
-</div>
+        <!-- Manage Tasks -->
+        <section class="profile-card" style="margin-top:2rem;">
+            <h3>Tasks Management</h3>
+            <form id="taskForm">
+                <input type="text" id="taskTitle" placeholder="Task Title" required>
+                <input type="text" id="taskLink" placeholder="Task External Link" required>
+                <input type="number" id="taskPoints" placeholder="Points" required>
+                <button type="submit" class="btn">Add Task</button>
+            </form>
+            <ul id="tasksListAdmin">
+                <!-- Populated from app.js -->
+            </ul>
+        </section>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-<script src="app.js"></script>
-<script>
-window.addEventListener('load', async () => {
-  const user = supabase.auth.user();
-  if (!user || user.email !== "eyakemabi@gmail.com") {
-    alert("Access denied");
-    window.location.href = "dashboard.html";
-  } else {
-    loadSubmissions();
-  }
-});
+        <!-- Withdrawal Approvals -->
+        <section class="profile-card" style="margin-top:2rem;">
+            <h3>Pending Withdrawals</h3>
+            <ul id="withdrawalsListAdmin">
+                <!-- Populated from app.js -->
+            </ul>
+        </section>
 
-document.getElementById('addTaskBtn').addEventListener('click', async () => {
-  const title = document.getElementById('taskTitle').value;
-  const link = document.getElementById('taskLink').value;
-  const reward = Number(document.getElementById('taskReward').value);
-  await adminAddTask(title, link, reward);
-});
+        <!-- Users Management -->
+        <section class="profile-card" style="margin-top:2rem;">
+            <h3>All Users</h3>
+            <ul id="usersListAdmin">
+                <!-- Populated from app.js -->
+            </ul>
+        </section>
+    </main>
 
-document.getElementById('addAnnouncementBtn').addEventListener('click', async () => {
-  const content = document.getElementById('announcementContent').value;
-  await adminAddAnnouncement(content);
-});
-</script>
+    <footer style="text-align:center; margin-top:2rem;">
+        <p>&copy; 2025 Teenage Developer Eyakem Takele</p>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>

@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wallet - Earn Ethiopia</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Ethiopia - Wallet</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>Wallet</h1>
-    <p>Total Points: <span id="points">0</span></p>
-    <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
-  </header>
+    <!-- Header -->
+    <header>
+        <div class="logo">Earn Ethiopia</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="wallet.html">Wallet</a>
+            <a href="referrals.html">Referrals</a>
+            <a href="profile.html">Profile</a>
+            <a href="admin.html" id="adminLink" class="hidden">Admin Panel</a>
+            <a href="contact.html">Contact</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
 
-  <form id="withdrawForm">
-    <input type="text" id="telebirrName" placeholder="Telebirr Name" required>
-    <input type="text" id="telebirrNumber" placeholder="Telebirr Number" required>
-    <button type="submit">Withdraw</button>
-  </form>
-</div>
+    <main>
+        <h2>Wallet</h2>
+        <section class="wallet-card">
+            <p><strong>Telebirr Name:</strong> <span id="walletName"></span></p>
+            <p><strong>Phone:</strong> <span id="walletPhone"></span></p>
+            <p><strong>Points Balance:</strong> <span id="walletPoints"></span> pts</p>
+            <p><strong>Available ETB:</strong> <span id="walletETB"></span> ETB</p>
+        </section>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-<script src="app.js"></script>
-<script>
-async function loadWallet() {
-  const user = supabase.auth.user();
-  if (!user) return window.location.href = 'login.html';
-  const { data: userData } = await supabase.from('users').select('*').eq('id', user.id).single();
-  document.getElementById('points').innerText = userData.points;
-}
-window.addEventListener('load', loadWallet);
+        <button id="requestWithdrawalBtn" class="btn">Request Withdrawal</button>
 
-document.getElementById('withdrawForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const name = document.getElementById('telebirrName').value;
-  const number = document.getElementById('telebirrNumber').value;
-  await requestWithdrawal(name, number);
-});
-</script>
+        <section class="profile-card" style="margin-top:2rem;">
+            <h3>Withdrawal Info</h3>
+            <p>Minimum withdrawal: 100 ETB</p>
+            <p>Conversion: 10 points = 1 ETB</p>
+        </section>
+    </main>
+
+    <footer style="text-align:center; margin-top:2rem;">
+        <p>&copy; 2025 Teenage Developer Eyakem Takele</p>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>

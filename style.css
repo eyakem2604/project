@@ -1,131 +1,193 @@
-/* --- General --- */
+/* -------------------- GENERAL -------------------- */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  background: linear-gradient(135deg, #0d0d0d, #050505);
-  color: #fff;
-  min-height: 100vh;
+    background: linear-gradient(120deg, #000000, #001933);
+    color: #ffffff;
+    min-height: 100vh;
 }
 
-/* --- Container --- */
-.container {
-  max-width: 500px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: rgba(10, 25, 50, 0.7);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+/* -------------------- HEADER -------------------- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 50, 0.9);
+    padding: 1rem 2rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
-/* --- Header --- */
-header h1 {
-  font-size: 2rem;
-  color: #00bfff;
-  text-align: center;
-  margin-bottom: 0.5rem;
+header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00ccff;
 }
 
-header p {
-  text-align: center;
-  color: #aaa;
-  margin-bottom: 1.5rem;
+header nav a {
+    color: #00ccff;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    transition: color 0.3s;
 }
 
-/* --- Forms --- */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+header nav a:hover {
+    color: #ffffff;
 }
 
-input, textarea, button {
-  padding: 0.8rem 1rem;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
+.hamburger {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #00ccff;
 }
 
-input, textarea {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
+/* -------------------- NAVIGATION MOBILE -------------------- */
+@media (max-width: 768px) {
+    header nav {
+        display: none;
+        flex-direction: column;
+        background: rgba(0,0,50,0.95);
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        padding: 1rem;
+        border-radius: 5px 0 0 5px;
+    }
+    header nav.active {
+        display: flex;
+    }
+    header nav a {
+        margin: 0.5rem 0;
+    }
+    .hamburger {
+        display: block;
+    }
+}
+
+/* -------------------- MAIN -------------------- */
+main {
+    padding: 6rem 2rem 2rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* -------------------- CARDS -------------------- */
+.profile-card, .wallet-card {
+    background: rgba(0, 0, 50, 0.85);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    transition: transform 0.3s, background 0.3s;
+}
+
+.profile-card:hover, .wallet-card:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 0, 80, 0.95);
+}
+
+/* -------------------- HEADINGS -------------------- */
+h2, h3, h4 {
+    color: #00ccff;
+    margin-bottom: 1rem;
+}
+
+/* -------------------- BUTTONS -------------------- */
+.btn {
+    background: #00ccff;
+    color: #000000;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn:hover {
+    background: #ffffff;
+    color: #001933;
+}
+
+/* -------------------- FORMS -------------------- */
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], textarea {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
 }
 
 input::placeholder, textarea::placeholder {
-  color: #ccc;
+    color: #cccccc;
 }
 
-button {
-  background: #00bfff;
-  color: #fff;
-  cursor: pointer;
-  transition: 0.3s;
+textarea {
+    resize: none;
 }
 
-button:hover {
-  background: #008fcf;
+/* -------------------- LISTS -------------------- */
+ul {
+    list-style: none;
+    padding-left: 0;
 }
 
-/* --- Links --- */
+ul li {
+    background: rgba(0,0,80,0.85);
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.8rem;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+ul li:hover {
+    transform: translateX(5px);
+}
+
+/* -------------------- FOOTER -------------------- */
+footer {
+    padding: 2rem;
+    background: rgba(0,0,50,0.9);
+    color: #00ccff;
+    text-align: center;
+    margin-top: 2rem;
+    border-top: 1px solid #00ccff;
+}
+
+/* -------------------- MISC -------------------- */
+.hidden {
+    display: none !important;
+}
+
 a {
-  color: #00bfff;
-  text-decoration: none;
+    transition: color 0.3s;
 }
 
 a:hover {
-  text-decoration: underline;
+    color: #ffffff;
 }
 
-/* --- Task Cards --- */
-.taskCard {
-  background: rgba(0, 0, 50, 0.5);
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-}
-
-.taskCard h3 {
-  color: #00bfff;
-}
-
-.taskCard a {
-  display: inline-block;
-  margin-top: 0.5rem;
-  color: #fff;
-  text-decoration: underline;
-}
-
-/* --- Navigation --- */
-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-/* --- Footer --- */
-footer {
-  margin-top: 2rem;
-  text-align: center;
-  color: #888;
-  font-size: 0.9rem;
-}
-
-/* --- Responsive --- */
-@media (max-width: 600px) {
-  .container {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-  }
+@media (max-width: 480px) {
+    main {
+        padding: 6rem 1rem 2rem 1rem;
+    }
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
 }
 

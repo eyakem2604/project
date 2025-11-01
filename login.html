@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Earn Ethiopia</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Ethiopia - Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>Login</h1>
-    <p>Access your Earn Ethiopia account</p>
-  </header>
+    <!-- Header -->
+    <header>
+        <div class="logo">Earn Ethiopia</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
 
-  <form id="loginForm">
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Password" required>
-    <button type="submit">Login</button>
-  </form>
+    <!-- Login Form -->
+    <main>
+        <section class="profile-card">
+            <h2>Login to Your Account</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <p style="margin-top:1rem;">Don't have an account? <a href="signup.html" style="color:#00ccff;">Sign up here</a></p>
+        </section>
+    </main>
 
-  <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-<script src="app.js"></script>
-<script>
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  await login(email, password);
-});
-</script>
+    <script src="app.js"></script>
 </body>
 </html>

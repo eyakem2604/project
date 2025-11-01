@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Ethiopia - Tasks</title>
+    <title>Earn Ethiopia - Profile</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,27 +24,25 @@
     </header>
 
     <main>
-        <h2>Available Tasks</h2>
-        <div id="tasksList">
-            <!-- Populated dynamically from app.js -->
-        </div>
-
-        <!-- Screenshot Upload Modal -->
         <section class="profile-card">
-            <h3>Upload Screenshot for Points</h3>
-            <form id="screenshotForm">
-                <input type="file" id="screenshotFile" accept="image/*" required>
-                <button type="submit" class="btn">Upload</button>
-            </form>
-            <div id="screenshotStatus"></div>
+            <h2>Your Profile</h2>
+            <p><strong>Name:</strong> <span id="profileName"></span></p>
+            <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+            <p><strong>Phone:</strong> <span id="profilePhone"></span></p>
+            <p><strong>Points:</strong> <span id="profilePoints"></span> pts</p>
+            <p><strong>Referral Code:</strong> <span id="profileReferral">ETHE1234</span></p>
+
+            <button id="editProfileBtn" class="btn">Edit Profile</button>
         </section>
 
-        <!-- Google Ads Placeholder -->
-        <section class="profile-card">
-            <h3>Sponsored Content</h3>
-            <div style="background:#001933; color:#00ccff; padding:1rem; text-align:center;">
-                Google Ads Placeholder (Non-incentivized)
-            </div>
+        <section class="profile-card" id="editProfileSection" style="display:none; margin-top:2rem;">
+            <h3>Edit Profile</h3>
+            <form id="editProfileForm">
+                <input type="text" id="editName" placeholder="Full Name" required>
+                <input type="text" id="editPhone" placeholder="Phone" required>
+                <button type="submit" class="btn">Save Changes</button>
+            </form>
+            <div id="editStatus" style="margin-top:1rem; color:#00ccff;"></div>
         </section>
     </main>
 

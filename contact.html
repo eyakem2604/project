@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Ethiopia - Contact</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">Earn Ethiopia</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="wallet.html">Wallet</a>
+            <a href="referrals.html">Referrals</a>
+            <a href="profile.html">Profile</a>
+            <a href="admin.html" id="adminLink" class="hidden">Admin Panel</a>
+            <a href="contact.html">Contact</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Contact Us</h2>
+
+        <!-- Telegram Link -->
+        <section class="profile-card">
+            <h3>Telegram</h3>
+            <p>Reach us on Telegram:</p>
+            <a href="https://t.me/PromotionEmpire" target="_blank" class="btn">@PromotionEmpire</a>
+        </section>
+
+        <!-- Contact Form -->
+        <section class="profile-card" style="margin-top:2rem;">
+            <h3>Send us a message</h3>
+            <form id="contactForm">
+                <input type="text" id="contactName" placeholder="Your Name" required>
+                <input type="email" id="contactEmail" placeholder="Your Email" required>
+                <textarea id="contactMessage" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+            <div id="contactStatus" style="margin-top:1rem; color:#00ccff;"></div>
+        </section>
+
+        <!-- Placeholder Map -->
+        <section class="profile-card" style="margin-top:2rem;">
+            <h3>Our Location</h3>
+            <div style="background:#001933; color:#00ccff; height:200px; display:flex; align-items:center; justify-content:center;">
+                Map Placeholder
+            </div>
+        </section>
+    </main>
+
+    <footer style="text-align:center; margin-top:2rem;">
+        <p>&copy; 2025 Teenage Developer Eyakem Takele</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Ethiopia - Tasks</title>
+    <title>Earn Ethiopia - Withdraw</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,27 +24,22 @@
     </header>
 
     <main>
-        <h2>Available Tasks</h2>
-        <div id="tasksList">
-            <!-- Populated dynamically from app.js -->
-        </div>
-
-        <!-- Screenshot Upload Modal -->
         <section class="profile-card">
-            <h3>Upload Screenshot for Points</h3>
-            <form id="screenshotForm">
-                <input type="file" id="screenshotFile" accept="image/*" required>
-                <button type="submit" class="btn">Upload</button>
+            <h2>Request Withdrawal</h2>
+            <form id="withdrawForm">
+                <input type="text" id="telebirrName" placeholder="Telebirr Name" required>
+                <input type="text" id="telebirrPhone" placeholder="Telebirr Phone" required>
+                <input type="number" id="withdrawAmount" placeholder="Amount (ETB)" required>
+                <button type="submit" class="btn">Submit Withdrawal</button>
             </form>
-            <div id="screenshotStatus"></div>
+            <div id="withdrawStatus" style="margin-top:1rem; color:#00ccff;"></div>
         </section>
 
-        <!-- Google Ads Placeholder -->
-        <section class="profile-card">
-            <h3>Sponsored Content</h3>
-            <div style="background:#001933; color:#00ccff; padding:1rem; text-align:center;">
-                Google Ads Placeholder (Non-incentivized)
-            </div>
+        <section class="profile-card" style="margin-top:2rem;">
+            <h3>Withdrawal Rules</h3>
+            <p>Minimum withdrawal: 100 ETB</p>
+            <p>Conversion: 10 points = 1 ETB</p>
+            <p>Admin approval required for all withdrawals.</p>
         </section>
     </main>
 

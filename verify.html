@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verify Email - Earn Ethiopia</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Ethiopia - Verify Account</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>Email Verification</h1>
-    <p>Please check your inbox and click the verification link. Then click below to continue.</p>
-  </header>
+    <!-- Header -->
+    <header>
+        <div class="logo">Earn Ethiopia</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
 
-  <button id="checkVerifyBtn">I have verified my email</button>
-  <p><a href="login.html">Back to Login</a></p>
-</div>
+    <!-- Verification Form -->
+    <main>
+        <section class="profile-card">
+            <h2>Verify Your Account</h2>
+            <p>Enter the verification code sent to your email.</p>
+            <form id="verifyForm">
+                <input type="text" id="verifyCode" placeholder="Verification Code" required>
+                <button type="submit" class="btn">Verify</button>
+            </form>
+            <p style="margin-top:1rem;">Already verified? <a href="login.html" style="color:#00ccff;">Login here</a></p>
+        </section>
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-<script src="app.js"></script>
-<script>
-document.getElementById("checkVerifyBtn").addEventListener("click", async () => {
-  const user = supabase.auth.user();
-  if (!user) return alert("No user found. Please login first.");
-  await supabase.auth.getSession(); // refresh session
-  if (user.email_confirmed_at) {
-    window.location.href = "dashboard.html";
-  } else {
-    alert("Email not verified yet. Please click the link in your email.");
-  }
-});
-</script>
+    <script src="app.js"></script>
 </body>
 </html>

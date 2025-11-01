@@ -1,33 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard - Earn Ethiopia</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Ethiopia - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1 id="welcomeMsg">Welcome!</h1>
-    <p>Points: <span id="points">0</span></p>
-    <a id="adminLink" href="admin.html" style="display:none;">Admin Panel</a>
-  </header>
+    <!-- Header -->
+    <header>
+        <div class="logo">Earn Ethiopia</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="wallet.html">Wallet</a>
+            <a href="referrals.html">Referrals</a>
+            <a href="profile.html">Profile</a>
+            <a href="admin.html" id="adminLink" class="hidden">Admin Panel</a>
+            <a href="contact.html">Contact</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
 
-  <div id="announcements"></div>
+    <!-- Main Dashboard -->
+    <main>
+        <section class="profile-card">
+            <h2>Welcome to Earn Ethiopia</h2>
+            <p>Your points balance: <span id="pointsBalance">0</span> pts</p>
+        </section>
 
-  <nav>
-    <button onclick="window.location.href='tasks.html'">View Tasks</button>
-    <button onclick="window.location.href='wallet.html'">Wallet</button>
-    <button onclick="window.location.href='referrals.html'">Referrals</button>
-    <button onclick="logout()">Logout</button>
-  </nav>
-</div>
+        <!-- Announcements -->
+        <section>
+            <h3>Announcements</h3>
+            <ul id="announcementsList">
+                <!-- Populated dynamically from app.js -->
+            </ul>
+        </section>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-<script src="app.js"></script>
-<script>
-window.addEventListener('load', loadDashboard);
-</script>
+        <!-- Recent Tasks -->
+        <section>
+            <h3>Recent Tasks</h3>
+            <ul id="recentTasks">
+                <!-- Populated dynamically from app.js -->
+            </ul>
+        </section>
+
+        <!-- Referral Info -->
+        <section class="profile-card">
+            <h3>Your Referral Code</h3>
+            <p><strong id="referralCode">ETHE1234</strong></p>
+            <h4>Referred Users</h4>
+            <ul id="referredUsers">
+                <!-- Populated dynamically from app.js -->
+            </ul>
+        </section>
+    </main>
+
+    <footer style="text-align:center; margin-top:2rem;">
+        <p>&copy; 2025 Teenage Developer Eyakem Takele</p>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>

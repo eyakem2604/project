@@ -1,27 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Earn Ethiopia</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Ethiopia - Home</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>Earn Ethiopia</h1>
-    <p>Complete simple tasks to earn points and withdraw via Telebirr</p>
-  </header>
+    <!-- Header -->
+    <header>
+        <div class="logo">Earn Ethiopia</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
 
-  <main>
-    <button onclick="window.location.href='signup.html'">Sign Up</button>
-    <button onclick="window.location.href='login.html'">Login</button>
-  </main>
+    <!-- Hero Section -->
+    <main>
+        <section class="hero">
+            <h1>Welcome to Earn Ethiopia</h1>
+            <p>Complete tasks, watch ads, invite friends, and earn rewards! Your points can be withdrawn via Telebirr.</p>
+            <div class="hero-buttons">
+                <a href="signup.html" class="btn">Sign Up</a>
+                <a href="login.html" class="btn">Login</a>
+            </div>
+        </section>
 
-  <footer>© 2025 Teenage Developer — Eyakem Takele</footer>
-</div>
+        <!-- Features Section -->
+        <section class="features">
+            <div class="profile-card">
+                <h3>Easy Tasks</h3>
+                <p>Complete simple online tasks and earn points quickly.</p>
+            </div>
+            <div class="profile-card">
+                <h3>Referral Bonus</h3>
+                <p>Invite friends and earn 5 points per successful referral.</p>
+            </div>
+            <div class="profile-card">
+                <h3>Instant Withdrawals</h3>
+                <p>Convert points to ETB and withdraw directly to your Telebirr account.</p>
+            </div>
+        </section>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-<script src="app.js"></script>
+        <!-- Footer -->
+        <footer style="text-align:center; margin-top:2rem;">
+            <p>&copy; 2025 Teenage Developer Eyakem Takele</p>
+        </footer>
+    </main>
+
+    <script src="app.js"></script>
 </body>
 </html>
